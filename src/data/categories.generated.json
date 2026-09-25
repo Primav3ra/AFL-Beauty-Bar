@@ -1,0 +1,727 @@
+{
+  "body": {
+    "frameId": "130:2468",
+    "hero": {
+      "nodeId": "490:2773",
+      "height": 680,
+      "top": 111,
+      "image": "992:2",
+      "kicker": "/ Body",
+      "kickerTop": 279,
+      "title": [
+        {
+          "text": "Body ",
+          "accent": true
+        },
+        {
+          "text": "Treatments",
+          "accent": false
+        }
+      ],
+      "titleTop": 350,
+      "titleSize": 77.693603515625,
+      "titleTracking": -5.4,
+      "description": "From stubborn areas you’d like to contour to skin you’d like to smooth and tighten, our body treatments are designed around the details that matter to you. With advanced technology and personalized treatment plans, we work to refine shape, improve skin appearance and address the areas you want to focus on.",
+      "descriptionWidth": 1095,
+      "descriptionLineHeight": 23,
+      "descriptionGap": 36
+    },
+    "column": {
+      "eyebrow": "/ Find your starting point",
+      "title": "All Body Treatments",
+      "titleWidth": 260,
+      "text": "Explore our selection of advanced body treatments to enhance your skin and boost your confidence.",
+      "textWidth": 378,
+      "textLineHeight": 30,
+      "x": 111,
+      "eyebrowTop": 912,
+      "titleTop": 956,
+      "textTop": 1114
+    },
+    "grid": {
+      "x": 519,
+      "y": 886,
+      "w": 831,
+      "h": 1440
+    },
+    "cards": [
+      {
+        "nodeId": "686:2013",
+        "box": {
+          "x": 519,
+          "y": 886,
+          "w": 406,
+          "h": 280
+        },
+        "image": "686:2014",
+        "gradientHeight": 179,
+        "title": "Body Contouring",
+        "titleTop": 49,
+        "titleLeft": 26,
+        "items": [
+          "Non-Surgical BBL",
+          "Non-Surgical Breast Lift",
+          "Non-Surgical Male Pectoral Sculpting"
+        ]
+      },
+      {
+        "nodeId": "686:2023",
+        "box": {
+          "x": 945,
+          "y": 886,
+          "w": 405,
+          "h": 280
+        },
+        "image": "686:2024",
+        "gradientHeight": 106,
+        "title": "Weight Loss",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "686:2028",
+        "box": {
+          "x": 519,
+          "y": 1176,
+          "w": 406,
+          "h": 280
+        },
+        "image": "686:2029",
+        "gradientHeight": 106,
+        "title": "Hair Restoration",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "686:2032",
+        "box": {
+          "x": 945,
+          "y": 1176,
+          "w": 405,
+          "h": 280
+        },
+        "image": "686:2033",
+        "gradientHeight": 106,
+        "title": "Hand Rejuvenation",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "686:2037",
+        "box": {
+          "x": 519,
+          "y": 1466,
+          "w": 406,
+          "h": 280
+        },
+        "image": "686:2038",
+        "gradientHeight": 106,
+        "title": "Vaginal Rejuvenation",
+        "titleTop": 30.4,
+        "titleLeft": 24.2,
+        "items": []
+      },
+      {
+        "nodeId": "686:2041",
+        "box": {
+          "x": 945,
+          "y": 1466,
+          "w": 405,
+          "h": 280
+        },
+        "image": "686:2042",
+        "gradientHeight": 106,
+        "title": "Slim Shots",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "686:2047",
+        "box": {
+          "x": 519,
+          "y": 1756,
+          "w": 406,
+          "h": 280
+        },
+        "image": "686:2048",
+        "gradientHeight": 106,
+        "title": "Sclerotherapy",
+        "titleTop": 30.4,
+        "titleLeft": 24.2,
+        "items": []
+      },
+      {
+        "nodeId": "686:2051",
+        "box": {
+          "x": 945,
+          "y": 1756,
+          "w": 405,
+          "h": 280
+        },
+        "image": "686:2052",
+        "gradientHeight": 106,
+        "title": "Skin Tightening",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "686:2056",
+        "box": {
+          "x": 519,
+          "y": 2046,
+          "w": 406,
+          "h": 280
+        },
+        "image": "686:2057",
+        "gradientHeight": 226,
+        "title": "Laser Hair removal",
+        "titleTop": 30.4,
+        "titleLeft": 24.2,
+        "items": [
+          "Co2",
+          "Pico",
+          "Tattoo Removal"
+        ]
+      }
+    ],
+    "rules": [
+      2430,
+      2469
+    ],
+    "cta": {
+      "nodeId": "239:1423",
+      "top": 2508,
+      "height": 633,
+      "image": "278:1659",
+      "kicker": "/ Elevate Your Beauty",
+      "title": "Schedule your consultation or book your appointment online today",
+      "button": "Book an Appointment",
+      "contentTop": 194
+    },
+    "footerTop": 3180
+  },
+  "face-care": {
+    "frameId": "221:689",
+    "hero": {
+      "nodeId": "221:732",
+      "height": 664.3,
+      "top": 101.7,
+      "image": "798:758",
+      "kicker": "/ Face Care",
+      "kickerTop": 326.3,
+      "title": [
+        {
+          "text": "Facial",
+          "accent": true
+        },
+        {
+          "text": " Treatments",
+          "accent": false
+        }
+      ],
+      "titleTop": 408.3,
+      "titleSize": 60,
+      "titleTracking": -4.2,
+      "description": "Address active breakouts, hyperpigmentation, and textural irregularities with our medical-grade exfoliation systems. These treatments penetrate dermal layers to extract impurities, accelerate cellular turnover, and restore a balanced complexion.",
+      "descriptionWidth": 1162,
+      "descriptionLineHeight": 23,
+      "descriptionGap": 36
+    },
+    "column": {
+      "eyebrow": "/ Find your starting point",
+      "title": "Clinical Approach to Anti-Aging",
+      "titleWidth": 358,
+      "text": "Explore treatments from peels to fillers, tailored to your skin's unique needs - because looking your best starts with feeling your best",
+      "textWidth": 387,
+      "textLineHeight": 23,
+      "x": 114,
+      "eyebrowTop": 886,
+      "titleTop": 930,
+      "textTop": 1088
+    },
+    "grid": {
+      "x": 522.5,
+      "y": 886,
+      "w": 831,
+      "h": 1730
+    },
+    "cards": [
+      {
+        "nodeId": "411:397",
+        "box": {
+          "x": 522.5,
+          "y": 886,
+          "w": 406,
+          "h": 280
+        },
+        "image": "411:427",
+        "gradientHeight": 106,
+        "title": "Chemical Peel",
+        "titleTop": 30.4,
+        "titleLeft": 24.2,
+        "items": []
+      },
+      {
+        "nodeId": "411:401",
+        "box": {
+          "x": 948.5,
+          "y": 886,
+          "w": 405,
+          "h": 280
+        },
+        "image": "411:429",
+        "gradientHeight": 106,
+        "title": "Hydra facial",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "411:406",
+        "box": {
+          "x": 522.5,
+          "y": 1176,
+          "w": 406,
+          "h": 280
+        },
+        "image": null,
+        "gradientHeight": 106,
+        "title": "Skin Boosters",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "411:410",
+        "box": {
+          "x": 948.5,
+          "y": 1176,
+          "w": 405,
+          "h": 280
+        },
+        "image": null,
+        "gradientHeight": 106,
+        "title": "Lip Fillers",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "701:2538",
+        "box": {
+          "x": 522.5,
+          "y": 1466,
+          "w": 406,
+          "h": 280
+        },
+        "image": null,
+        "gradientHeight": 106,
+        "title": "Laser Treatments",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "701:2541",
+        "box": {
+          "x": 948.5,
+          "y": 1466,
+          "w": 405,
+          "h": 280
+        },
+        "image": null,
+        "gradientHeight": 106,
+        "title": "PDO ThreadLIfts",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "701:2545",
+        "box": {
+          "x": 522.5,
+          "y": 1756,
+          "w": 406,
+          "h": 280
+        },
+        "image": null,
+        "gradientHeight": 106,
+        "title": "Neurotoxins",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "701:2548",
+        "box": {
+          "x": 948.5,
+          "y": 1756,
+          "w": 405,
+          "h": 280
+        },
+        "image": null,
+        "gradientHeight": 106,
+        "title": "Micro-needling",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "701:2552",
+        "box": {
+          "x": 522.5,
+          "y": 2046,
+          "w": 406,
+          "h": 280
+        },
+        "image": null,
+        "gradientHeight": 106,
+        "title": "Men’s procedures",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "701:2555",
+        "box": {
+          "x": 948.5,
+          "y": 2046,
+          "w": 405,
+          "h": 280
+        },
+        "image": null,
+        "gradientHeight": 106,
+        "title": "Facial balancing",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "701:2559",
+        "box": {
+          "x": 522.5,
+          "y": 2336,
+          "w": 406,
+          "h": 280
+        },
+        "image": null,
+        "gradientHeight": 106,
+        "title": "Biosimulators",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      }
+    ],
+    "rules": [
+      2722,
+      2761
+    ],
+    "cta": {
+      "nodeId": "554:41",
+      "top": 2800,
+      "height": 633,
+      "image": "554:42",
+      "kicker": "/ Elevate Your Beauty",
+      "title": "Schedule your consultation or book your appointment online today",
+      "button": "Book an Appointment",
+      "contentTop": 194
+    },
+    "footerTop": 3472
+  },
+  "other": {
+    "frameId": "230:888",
+    "hero": {
+      "nodeId": "230:931",
+      "height": 686,
+      "top": 105,
+      "image": "411:629",
+      "kicker": "/ Other Treatments",
+      "kickerTop": 325,
+      "title": [
+        {
+          "text": "Wellness & ",
+          "accent": false
+        },
+        {
+          "text": "Longevity",
+          "accent": true
+        }
+      ],
+      "titleTop": 396,
+      "titleSize": 60,
+      "titleTracking": -4.2,
+      "description": "This curated selection represents our most advanced interventions, combining premium injectables and specialized therapies. Developed to deliver immediate aesthetic enhancements, these signature protocols address complex volume loss and foundational contouring requirements.",
+      "descriptionWidth": 1162,
+      "descriptionLineHeight": 23,
+      "descriptionGap": 36
+    },
+    "column": {
+      "eyebrow": "/ Find your starting point",
+      "title": "Age Beautifully,\nLive Well",
+      "titleWidth": 327,
+      "text": "Explore care that puts YOU first as we take the time to understand what you need, so you always feel confident and supported",
+      "textWidth": 332,
+      "textLineHeight": 23,
+      "x": 101,
+      "eyebrowTop": 886,
+      "titleTop": 930,
+      "textTop": 1088
+    },
+    "grid": {
+      "x": 478,
+      "y": 886,
+      "w": 831,
+      "h": 860
+    },
+    "cards": [
+      {
+        "nodeId": "411:519",
+        "box": {
+          "x": 478,
+          "y": 886,
+          "w": 406,
+          "h": 280
+        },
+        "image": null,
+        "gradientHeight": 106,
+        "title": "Testosterone Replacement Therapy",
+        "titleTop": 30.4,
+        "titleLeft": 24.2,
+        "items": []
+      },
+      {
+        "nodeId": "411:523",
+        "box": {
+          "x": 904,
+          "y": 886,
+          "w": 405,
+          "h": 280
+        },
+        "image": null,
+        "gradientHeight": 106,
+        "title": "Hormone Replacement Therapy",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "411:528",
+        "box": {
+          "x": 478,
+          "y": 1176,
+          "w": 406,
+          "h": 280
+        },
+        "image": "445:1178",
+        "gradientHeight": 106,
+        "title": "IV Therapy",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "411:532",
+        "box": {
+          "x": 904,
+          "y": 1176,
+          "w": 405,
+          "h": 280
+        },
+        "image": null,
+        "gradientHeight": 106,
+        "title": "Section",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "701:2577",
+        "box": {
+          "x": 478,
+          "y": 1466,
+          "w": 406,
+          "h": 280
+        },
+        "image": null,
+        "gradientHeight": 106,
+        "title": "Metabolic Reset",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "701:2581",
+        "box": {
+          "x": 904,
+          "y": 1466,
+          "w": 405,
+          "h": 280
+        },
+        "image": null,
+        "gradientHeight": 106,
+        "title": "Anti Aging and Longevity",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      }
+    ],
+    "rules": [
+      1797,
+      1836
+    ],
+    "cta": {
+      "nodeId": "554:81",
+      "top": 1875,
+      "height": 633,
+      "image": "554:82",
+      "kicker": "/ Elevate Your Beauty",
+      "title": "Schedule your consultation or book your appointment online today",
+      "button": "Book an Appointment",
+      "contentTop": 194
+    },
+    "footerTop": 2544
+  },
+  "signature": {
+    "frameId": "213:178",
+    "hero": {
+      "nodeId": "213:221",
+      "height": 641.5,
+      "top": 104.7,
+      "image": "758:483",
+      "kicker": "/ Fatema's Signature Treatments",
+      "kickerTop": 323,
+      "title": [
+        {
+          "text": " Fatema’s Signature ",
+          "accent": true
+        },
+        {
+          "text": "Treatments",
+          "accent": false
+        }
+      ],
+      "titleTop": 411.3,
+      "titleSize": 80,
+      "titleTracking": -5.6,
+      "description": "This curated selection represents our most advanced interventions, combining premium injectables and specialized therapies. Developed to deliver immediate aesthetic enhancements, these signature protocols address complex volume loss and foundational contouring requirements.",
+      "descriptionWidth": 1162,
+      "descriptionLineHeight": 23,
+      "descriptionGap": 30
+    },
+    "column": {
+      "eyebrow": "/ Find your starting point",
+      "title": "Signature Treatments",
+      "titleWidth": 253,
+      "text": "Explore Fatema's go-to treatments, handpicked to help you look radiant and feel your best, inside and out.",
+      "textWidth": 404,
+      "textLineHeight": 23,
+      "x": 103,
+      "eyebrowTop": 845,
+      "titleTop": 889,
+      "textTop": 1047
+    },
+    "grid": {
+      "x": 507,
+      "y": 845,
+      "w": 831,
+      "h": 860
+    },
+    "cards": [
+      {
+        "nodeId": "411:36",
+        "box": {
+          "x": 507,
+          "y": 845,
+          "w": 406,
+          "h": 280
+        },
+        "image": "411:124",
+        "gradientHeight": 106,
+        "title": "Salmon DNA Facial",
+        "titleTop": 30.4,
+        "titleLeft": 24.2,
+        "items": []
+      },
+      {
+        "nodeId": "411:40",
+        "box": {
+          "x": 933,
+          "y": 845,
+          "w": 405,
+          "h": 280
+        },
+        "image": "411:126",
+        "gradientHeight": 106,
+        "title": "Wellness & longevity",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "411:45",
+        "box": {
+          "x": 507,
+          "y": 1135,
+          "w": 406,
+          "h": 280
+        },
+        "image": "411:128",
+        "gradientHeight": 106,
+        "title": "Non-Invasive BBL",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "411:49",
+        "box": {
+          "x": 933,
+          "y": 1135,
+          "w": 405,
+          "h": 280
+        },
+        "image": "411:130",
+        "gradientHeight": 106,
+        "title": "Neurotoxins",
+        "titleTop": 30.4,
+        "titleLeft": 24.6,
+        "items": []
+      },
+      {
+        "nodeId": "411:54",
+        "box": {
+          "x": 507,
+          "y": 1425,
+          "w": 406,
+          "h": 280
+        },
+        "image": "411:132",
+        "gradientHeight": 106,
+        "title": "Lip Fillers",
+        "titleTop": 30.4,
+        "titleLeft": 24.2,
+        "items": []
+      }
+    ],
+    "rules": [
+      1810,
+      1849
+    ],
+    "cta": {
+      "nodeId": "554:2",
+      "top": 1885,
+      "height": 633,
+      "image": "554:3",
+      "kicker": "/ Elevate Your Beauty",
+      "title": "Schedule your consultation or book your appointment online today",
+      "button": "Book an Appointment",
+      "contentTop": 194
+    },
+    "footerTop": 2554
+  }
+}
