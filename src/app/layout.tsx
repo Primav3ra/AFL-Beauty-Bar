@@ -22,7 +22,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} ${ancizar.variable} ${manrope.variable} ${lora.variable}`}>
+    // Browser extensions add attributes to <html> before hydration; ignore mismatches on this element only.
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${ancizar.variable} ${manrope.variable} ${lora.variable}`}>
       <body>
         <AnnouncementBar />
         <Navbar />

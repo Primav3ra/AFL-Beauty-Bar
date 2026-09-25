@@ -33,6 +33,7 @@ node scripts/optimize-images.mjs        # right-sized WebP into public/figma
 node scripts/gen-placements.mjs         # pixel-exact image placements
 node scripts/extract-treatments.mjs     # 32 detail pages → src/data/treatments.generated.json
 node scripts/extract-categories.mjs     # 4 category pages
+node scripts/extract-faqs.mjs           # treatment FAQs from Figma comments → src/data/faqs.generated.json
 npm run figma:q -- text <nodeId>        # inspect any node (tree | text | node | find | images …)
 ```
 
