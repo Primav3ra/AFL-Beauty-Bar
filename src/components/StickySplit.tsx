@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 import { BookingLink } from "./BookingLink";
 import { StickyIndex, type IndexItem } from "./StickyIndex";
-import { SectionIntro } from "./blocks";
+import { INTRO_GAP, SectionIntro, btnBrown } from "./blocks";
 
 /**
  * Sticky-scroll section (Figma note 130:1474: "all these empty spaces are for the sticky scroll"):
  * a centred heading, then a pinned left column (an index of the cards + booking CTA) beside a card grid
- * that scrolls past it. Spans the full 1440 column with the page's 111px margins.
+ * that scrolls past it. Below 1024px the index is dropped and the grid runs full width.
  */
 export function StickySplit({ id, eyebrow, title, text, index, indexLabel, className = "", children }: {
   id: string;
@@ -20,14 +20,12 @@ export function StickySplit({ id, eyebrow, title, text, index, indexLabel, class
   children: ReactNode;
 }) {
   return (
-    <section className={`px-[111px] ${className}`} aria-labelledby={id}>
+    <section className={`section container-site ${className}`} aria-labelledby={id}>
       <SectionIntro id={id} eyebrow={eyebrow} title={title} text={text} />
-      <div className="mt-14 flex items-start gap-16">
-        <div className="sticky top-[117px] w-[280px] shrink-0" data-reveal>
+      <div className={`${INTRO_GAP} flex items-start gap-12`}>
+        <div className="sticky top-[88px] hidden w-[220px] shrink-0 lg:block" data-reveal>
           <StickyIndex items={index} label={indexLabel} />
-          <BookingLink className="mt-9 inline-flex h-[49px] items-center gap-3 bg-brown px-7 text-[15px] leading-5 font-medium tracking-[-0.3px] text-white transition-colors hover:bg-espresso">
-            Book a consultation
-          </BookingLink>
+          <BookingLink className={`${btnBrown} mt-8`}>Book a consultation</BookingLink>
         </div>
         <div className="min-w-0 flex-1">{children}</div>
       </div>
@@ -36,17 +34,31 @@ export function StickySplit({ id, eyebrow, title, text, index, indexLabel, class
 }
 
 /**
- * 3-column grid for StickySplit (a 6-track grid, each card spanning 2). A short last row stretches its
- * cards to fill the row, so the grid always ends flush.
+ * Card grid for StickySplit: 2 columns below 1024px, 3 from 1024px (a 6-track grid, each card spanning 2;
+ * a short last row stretches its cards so the grid ends flush). On phones, `wide` cards (ones with a
+ * sub-list) take a full row, and a card that would be left alone in a row stretches to fill it.
  */
-export function SplitGrid({ children }: { children: ReactNode[] }) {
+export function SplitGrid({ children, wide = [] }: { children: ReactNode[]; wide?: boolean[] }) {
   const n = children.length;
   const rest = n % 3;
-  const span = (i: number) => (rest && i >= n - rest ? (rest === 1 ? "col-span-6" : "col-span-3") : "col-span-2");
+  const lg = (i: number) => (rest && i >= n - rest ? (rest === 1 ? "lg:col-span-6" : "lg:col-span-3") : "lg:col-span-2");
+  // Phone layout (2 columns, wide cards on their own row).
+  const full = new Set<number>();
+  let open: number | null = null; // index of a narrow card waiting for a partner
+  children.forEach((_, i) => {
+    if (wide[i]) {
+      if (open !== null) full.add(open);
+      open = null;
+      full.add(i);
+    } else if (open === null) open = i;
+    else open = null;
+  });
+  if (open !== null) full.add(open);
+  const sm = (i: number) => (n % 2 === 1 && i === n - 1 ? "sm:col-span-2" : "sm:col-span-1");
   return (
-    <ul data-reveal="stagger" className="relative grid grid-cols-6 gap-4">
+    <ul data-reveal="stagger" className="relative grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-6">
       {children.map((child, i) => (
-        <li key={i} className={span(i)}>
+        <li key={i} className={`${full.has(i) ? "col-span-2" : ""} ${sm(i)} ${lg(i)}`}>
           {child}
         </li>
       ))}

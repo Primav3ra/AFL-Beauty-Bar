@@ -1,12 +1,12 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { links } from "@/config/links";
 import { categories, categoryLinkFor, displayLabel, type Card, type CategoryKey } from "@/data/categories";
 import { cardImage } from "@/data/treatment-images";
 import { place } from "@/lib/figma";
 import { FigmaImage } from "./FigmaImage";
 import { PlaceholderLink } from "./PlaceholderLink";
-import { CtaBanner, PageHero, SECTION_GAP } from "./blocks";
+import { CtaBanner, PageHero, Runs } from "./blocks";
 import { SplitGrid, StickySplit } from "./StickySplit";
 import { ArrowLong } from "./icons";
 
@@ -32,17 +32,20 @@ function Target({ label, className, children }: { label: string; className: stri
   );
 }
 
-const itemCls = "group/item flex min-h-[30px] items-center py-1 text-[15px] leading-[20px] font-medium tracking-[-0.4px] text-white/85 transition-colors hover:text-white";
+const itemCls = "group/item flex min-h-7 items-center py-0.5 text-small font-medium text-white/85 transition-colors hover:text-white";
 
 /** Portrait treatment card: photo (or linen tile when the design has none) with the label at the foot. */
+/** Card heights: 190px on phones (two per row), `height` from 640px. */
 function TreatmentCard({ card, height }: { card: Card; height: number }) {
+  const h = { "--h": `${height}px` } as CSSProperties;
+  const hCls = "h-[190px] sm:h-(--h)";
   const title = card.title ?? "";
   const img = cardImage(card);
   const hasItems = card.items.length > 0;
   const tone = img ? "text-white" : "text-espresso";
   const media = img ? (
     <>
-      <FigmaImage src={img} cover sizes="380px" className="transition-transform duration-700 ease-out group-hover:scale-105" />
+      <FigmaImage src={img} cover sizes="(min-width: 1024px) 300px, (min-width: 640px) 50vw, 100vw" className="transition-transform duration-700 ease-out group-hover:scale-105" />
       <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
     </>
   ) : (
@@ -52,10 +55,10 @@ function TreatmentCard({ card, height }: { card: Card; height: number }) {
   if (hasItems) {
     // A card with sub-treatments: the card itself has no page, each item links to its own.
     return (
-      <div className="group relative overflow-hidden" style={{ height }}>
+      <div className={`group relative overflow-hidden ${hCls} min-h-[220px] sm:min-h-0`} style={h}>
         {media}
-        <div className="absolute inset-x-0 bottom-0 p-6">
-          <p className={`text-[19px] leading-6 font-semibold tracking-[-0.6px] ${tone}`}>{displayLabel(title)}</p>
+        <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
+          <p className={`text-h3 font-semibold ${tone}`}>{displayLabel(title)}</p>
           <ul className="mt-2">
             {card.items.map((it) => (
               <li key={it}>
@@ -73,9 +76,9 @@ function TreatmentCard({ card, height }: { card: Card; height: number }) {
 
   return (
     <Target label={title} className="group group/item relative block overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brown">
-      <span className="block" style={{ height }}>
+      <span className={`block ${hCls}`} style={h}>
         {media}
-        <span className={`absolute inset-x-0 bottom-0 flex items-center p-6 text-[19px] leading-6 font-semibold tracking-[-0.6px] ${tone}`}>
+        <span className={`absolute inset-x-0 bottom-0 flex items-center p-3.5 text-[15px] leading-5 font-semibold sm:p-5 sm:text-h3 ${tone}`}>
           <HoverArrow />
           {displayLabel(title)}
         </span>
@@ -86,7 +89,7 @@ function TreatmentCard({ card, height }: { card: Card; height: number }) {
 
 const cardId = (card: Card) => `card-${card.nodeId.replace(":", "-")}`;
 
-/** Pinned intro + index on the left, 2-column card grid scrolling past on the right. */
+/** Centred intro, then the pinned index beside the card grid. */
 function CardSection({ eyebrow, title, text, cards, cardHeight, className = "", titleId }: {
   eyebrow?: string | null; title: string | null; text: string | null; cards: Card[]; cardHeight: number; className?: string; titleId: string;
 }) {
@@ -100,7 +103,7 @@ function CardSection({ eyebrow, title, text, cards, cardHeight, className = "", 
       index={cards.map((card) => ({ id: cardId(card), label: displayLabel(card.title ?? "") }))}
       indexLabel={`${title ?? "Treatments"}: jump to a treatment`}
     >
-      <SplitGrid>
+      <SplitGrid wide={cards.map((card) => card.items.length > 0)}>
         {cards.map((card) => (
           <div key={card.nodeId} id={cardId(card)} className="scroll-mt-[140px]">
             <TreatmentCard card={card} height={cardHeight} />
@@ -119,43 +122,29 @@ export function CategoryPage({ id }: { id: CategoryKey }) {
     <>
       <PageHero
         image={c.hero.image ? place(c.hero.image, c.hero.nodeId) : null}
-        height={c.hero.height}
+        frameH={c.hero.height}
         kicker={c.hero.kicker}
-        kickerTop={c.hero.kickerTop}
-        titleTop={c.hero.titleTop}
-        title={c.hero.title}
-        titleTracking={c.hero.titleTracking}
+        title={<Runs runs={c.hero.title} />}
         description={c.hero.description}
-        descriptionClass="text-[17px] leading-[23px]"
-        descriptionWidth={c.hero.descriptionWidth}
-        gap={c.hero.descriptionGap ?? 36}
-        overlap={Math.max(0, 111 - c.hero.top)}
       />
 
       <CardSection
-        className={SECTION_GAP}
         titleId="category-title"
         eyebrow={c.column.eyebrow}
         title={c.column.title}
         text={c.column.text}
         cards={c.cards}
-        cardHeight={290}
+        cardHeight={260}
       />
 
-
-      <div className={SECTION_GAP}>
-        <CtaBanner
-          image={place(cta.image!, cta.nodeId)}
-          height={cta.height}
-          contentTop={cta.contentTop}
-          kicker={cta.kicker ?? ""}
-          title={cta.title ?? ""}
-          titleClass="text-[60px] leading-[74px] tracking-[-4.8px]"
-          titleAlign="left"
-          button={cta.button ?? ""}
-          href={links.booking}
-        />
-      </div>
+      <CtaBanner
+        image={place(cta.image!, cta.nodeId)}
+        frameH={cta.height}
+        kicker={cta.kicker}
+        title={cta.title ?? ""}
+        button={cta.button ?? ""}
+        href={links.booking}
+      />
     </>
   );
 }

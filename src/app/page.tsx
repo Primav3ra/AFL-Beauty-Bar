@@ -8,15 +8,15 @@ import { Marquee } from "@/components/Marquee";
 import { PlaceholderLink } from "@/components/PlaceholderLink";
 import { Reviews } from "@/components/Reviews";
 import { SplitGrid, StickySplit } from "@/components/StickySplit";
-import { Band, SECTION_GAP, SectionIntro, btnOutline, btnWhite } from "@/components/blocks";
+import { CtaBanner, Eyebrow, INTRO_GAP, PageHero, SectionIntro, btnOutline, btnWhite } from "@/components/blocks";
 import { ArrowRight } from "@/components/icons";
 import { links } from "@/config/links";
 import { reviews } from "@/data/reviews";
 import { treatmentHref } from "@/data/treatments";
 import { place, refOf } from "@/lib/figma";
 
-// Landing_Page 12:1078. Sections flow with one vertical rhythm (SECTION_GAP); the hero and CTA run
-// edge to edge, everything else sits on the 1440px column with 111px side margins.
+// Landing_Page 12:1078. Cream content sections use the `section` rhythm inside the site container; the hero,
+// logo strip, review block and CTA are full-width bands that sit flush against each other.
 
 const logos = ["85:847", "85:849", "85:851", "85:853", "85:855", "85:857"];
 const logoNames = ["Dr. Phil", "New York Post", "TLC", "Daily News", "Hollywood Unlocked", "E! News"];
@@ -50,59 +50,56 @@ const featured = [
   { img: "non-surgical-bbl", name: "Non-surgical BBL", tag: "Body", text: "Lift and shape the hips and glutes with fillers and biostimulators instead of surgery." },
 ];
 
+const cardTitle = "text-h3 font-semibold text-white";
 
 export default function Home() {
   const hero = place("531:29", "85:684");
   return (
     <>
       {/* Hero 85:684 */}
-      <Band
-        backdrop={hero}
+      <PageHero
+        id="hero-title"
+        size="feature"
+        image={hero}
         frameH={616}
-        priority
-        className="h-[616px]"
-        aria-labelledby="hero-title"
-        underlay={<div aria-hidden className="absolute -inset-x-[20%] bg-[#462416] opacity-90 blur-[150px]" style={{ top: 313, height: 628 }} />}
+        title={
+          <>
+            Still <span className="font-serif font-normal italic">thinking</span> about getting it done?
+          </>
+        }
+        description="Maybe stop thinking about it."
+        aside={<ClinicSelector />}
       >
-        <div className="hero-in absolute top-[257px] left-[111px] w-[559px]">
-          <h1 id="hero-title" className="text-[60px] leading-[70px] font-semibold tracking-[-2.4px] text-white">
-            Still <span className="font-serif text-[70px] font-normal tracking-[-2.8px] italic">thinking</span> about getting it done?
-          </h1>
-          <p className="mt-[30px] text-xl leading-[28.5px] text-white">Maybe stop thinking about it.</p>
-          <div className="mt-[41px] flex gap-[22px]">
-            <BookingLink className={`${btnWhite} w-[208.3px] text-black`}>Book Appointment</BookingLink>
-            <BookingLink type="virtual" className={`${btnOutline} w-[289px]`}>
-              Schedule Virtual Consultation
-            </BookingLink>
-          </div>
-        </div>
-        <div className="absolute top-[476px] right-[111px]">
-          <ClinicSelector />
-        </div>
-      </Band>
+        <BookingLink className={`${btnWhite} text-black`}>Book Appointment</BookingLink>
+        <BookingLink type="virtual" className={btnOutline}>
+          Schedule Virtual Consultation
+        </BookingLink>
+      </PageHero>
 
-      {/* Featured in 557:98 — edge-to-edge white ticker; each logo keeps its design position in a 240px cell */}
-      <section className="mt-12" aria-label="Featured in">
-        <p className="text-center font-lora text-[15px] leading-4 font-medium text-espresso/70">As featured in</p>
-        <div className="bleed mt-4 bg-white">
-          <Marquee label="Press logos" itemWidth={240} gap={0} seconds={30}>
-            {logos.map((id, i) => {
-              const p = place(id, "557:98");
-              const box = { ...p.place.box, x: p.place.box.x - i * 240, y: p.place.box.y - 32 };
-              return (
-                <span key={id} className="relative block h-[76px] w-[240px]">
-                  <FigmaImage src={p.src} place={{ ...p.place, box }} alt={logoNames[i]} />
-                </span>
-              );
-            })}
-          </Marquee>
-        </div>
+      {/* Featured in 557:98 — edge-to-edge white ticker, flush under the hero */}
+      <section className="bg-white pt-5" aria-label="Featured in">
+        <p className="text-center font-lora text-small font-medium text-espresso/70">As featured in</p>
+        <Marquee label="Press logos" itemWidth={216} gap={0} seconds={30}>
+          {logos.map((id, i) => {
+            const p = place(id, "557:98");
+            const b = p.place.box;
+            // Each logo keeps its design position and crop inside its 240px cell, at 90%. Several logo files
+            // are square with the mark in a band across the middle, so the crop rect (img) must be kept.
+            const k = 0.9;
+            const box = { x: (b.x - i * 240) * k, y: (b.y - 32) * k, w: b.w * k, h: b.h * k };
+            const img = p.place.img && { x: p.place.img.x * k, y: p.place.img.y * k, w: p.place.img.w * k, h: p.place.img.h * k };
+            return (
+              <span key={id} className="relative block h-[68px] w-[216px]">
+                <FigmaImage src={p.src} place={{ ...p.place, box, img }} alt={logoNames[i]} />
+              </span>
+            );
+          })}
+        </Marquee>
       </section>
 
       {/* Beauty Taking section 33:1649 — sticky left column while the tiles scroll (Figma note 130:1474) */}
       <StickySplit
         id="goals-title"
-        className={SECTION_GAP}
         eyebrow="Find your starting point"
         title="Where is your beauty taking you?"
         text="Pick what you want to change. We’ll point you to the treatment that does it."
@@ -112,12 +109,12 @@ export default function Home() {
         <SplitGrid>
           {goals.map((g) => {
             const inner = (
-              <span className="block h-[290px]">
-                <FigmaImage src={refOf(g.img)} cover sizes="380px" className="transition-transform duration-700 ease-out group-hover:scale-105" />
+              <span className="block h-[190px] sm:h-[240px] md:h-[260px]">
+                <FigmaImage src={refOf(g.img)} cover sizes="(min-width: 768px) 300px, 50vw" className="transition-transform duration-700 ease-out group-hover:scale-105" />
                 <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-                <span className="absolute inset-x-0 bottom-0 p-6">
-                  <span className="block text-[19px] leading-6 font-semibold tracking-[-0.6px] text-white">{g.title}</span>
-                  <span className="mt-1.5 flex items-center gap-2 text-[15px] leading-5 font-medium tracking-[-0.4px] text-white/75 transition-colors group-hover:text-white">
+                <span className="absolute inset-x-0 bottom-0 p-3.5 sm:p-5">
+                  <span className="block text-[15px] leading-5 font-semibold text-white sm:text-h3">{g.title}</span>
+                  <span className="mt-1 flex items-center gap-1.5 text-[12px] leading-4 font-medium text-white/75 transition-colors group-hover:text-white sm:gap-2 sm:text-small">
                     {g.link}
                     <ArrowRight className="h-[9px] w-[13px] transition-transform duration-300 group-hover:translate-x-1" />
                   </span>
@@ -143,72 +140,73 @@ export default function Home() {
       </StickySplit>
 
       {/* Before/After Section 39:2102 — one comparison slider instead of stacked cards */}
-      <section className={`${SECTION_GAP} px-[111px]`} aria-labelledby="ba-title">
+      <section className="section container-site" aria-labelledby="ba-title">
         <SectionIntro
           id="ba-title"
           eyebrow="Real results"
           title="A little before. A lot of after."
           text="Real clients, real results. Drag the line to compare, with every detail in its place."
         />
-        <div data-reveal className="mt-14">
+        <div data-reveal className={INTRO_GAP}>
           <BeforeAfter cases={beforeAfter} />
         </div>
       </section>
 
       {/* Treatments 90:910 */}
-      <section className={`${SECTION_GAP} px-[111px]`} aria-labelledby="featured-title">
+      <section className="section" aria-labelledby="featured-title">
         <SectionIntro
+          className="container-site"
           id="featured-title"
           title={"Treatments people drive\nacross town for."}
           text="Our most requested treatments, because apparently a little drive isn’t going to stop anyone."
         />
-        <div data-reveal className="mt-12">
-        <Marquee label="Featured treatments" itemWidth={300} seconds={50}>
-          {featured.map((c) => {
-            const href = treatmentHref(c.name);
-            return (
-              <article key={c.img} className="group relative h-[410px] overflow-hidden bg-espresso">
-                <Image src={`/img/featured/${c.img}.webp`} alt="" fill sizes="300px" className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 text-white">
-                  <p className="text-[13px] leading-4 tracking-[-0.2px] text-white/70">{c.tag}</p>
-                  <h3 className="mt-2 text-[21px] leading-7 font-semibold tracking-[-0.8px]">
-                    <Link href={href} className="after:absolute after:inset-0 after:content-[''] hover:underline">
-                      {c.name}
-                    </Link>
-                  </h3>
-                  <p className="mt-2 text-[14px] leading-5 tracking-[-0.2px] text-white/75">{c.text}</p>
-                  <BookingLink
-                    treatment={href.split("/").pop()}
-                    className="relative z-10 mt-5 flex items-center gap-3 border-t border-white/25 pt-4 text-[15px] leading-5 font-medium tracking-[-0.4px] text-white transition-[gap] hover:gap-4"
-                  >
-                    Book now <ArrowRight className="h-[10px] w-[14px]" />
-                  </BookingLink>
-                </div>
-              </article>
-            );
-          })}
-        </Marquee>
+        <div data-reveal className={INTRO_GAP}>
+          <Marquee label="Featured treatments" itemWidth={280} seconds={50}>
+            {featured.map((c) => {
+              const href = treatmentHref(c.name);
+              return (
+                <article key={c.img} className="group relative h-[380px] overflow-hidden bg-espresso">
+                  <Image src={`/img/featured/${c.img}.webp`} alt="" fill sizes="280px" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-5 text-white">
+                    <p className="text-[12px] leading-4 text-white/70">{c.tag}</p>
+                    <h3 className={`mt-1.5 ${cardTitle}`}>
+                      <Link href={href} className="after:absolute after:inset-0 after:content-[''] hover:underline">
+                        {c.name}
+                      </Link>
+                    </h3>
+                    <p className="mt-2 text-small text-white/75">{c.text}</p>
+                    <BookingLink
+                      treatment={href.split("/").pop()}
+                      className="relative z-10 mt-4 flex items-center gap-3 border-t border-white/25 pt-3.5 text-small font-medium text-white transition-[gap] hover:gap-4"
+                    >
+                      Book now <ArrowRight className="h-[10px] w-[14px]" />
+                    </BookingLink>
+                  </div>
+                </article>
+              );
+            })}
+          </Marquee>
         </div>
       </section>
 
-      {/* Reviews 130:2333 — full-width white band */}
-      <section className={`${SECTION_GAP} bleed bg-white`} aria-labelledby="reviews-title">
-        <div data-reveal className="frame flex items-center gap-24 px-[111px] py-20">
-          <div className="relative h-[460px] w-[440px] shrink-0 overflow-hidden bg-black">
-            <FigmaImage src={refOf("130:2356")} cover sizes="440px" position="50% 30%" alt="AFL client with her results" />
+      {/* Reviews 130:2333 — full-width white band, flush against the CTA banner */}
+      <section className="bg-white py-12 md:py-[72px]" aria-labelledby="reviews-title">
+        <div data-reveal className="container-site flex flex-col items-center gap-8 md:flex-row md:gap-16 lg:gap-20">
+          <div className="relative h-[320px] w-full shrink-0 overflow-hidden bg-black sm:h-[400px] md:w-[360px]">
+            <FigmaImage src={refOf("130:2356")} cover sizes="(min-width: 768px) 360px, 100vw" position="50% 30%" alt="AFL client with her results" />
           </div>
           <div>
-            <p id="reviews-title" className="text-[15px] leading-4 font-medium tracking-[-0.2px] text-brown">
-              Google Reviews
-            </p>
+            <Eyebrow>
+              <span id="reviews-title">Google Reviews</span>
+            </Eyebrow>
             {/* Reviews come from src/data/reviews.ts (Google Reviews integration swap point). */}
             <Reviews reviews={reviews} googleBadge={<FigmaImage {...place("354:85", "354:87")} alt="" />}>
               <a
                 href={links.googleReviews}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-10 inline-flex items-center gap-2 text-[17px] leading-6 font-medium tracking-[-0.5px] text-espresso underline underline-offset-4 transition-colors hover:text-brown"
+                className="mt-8 inline-flex items-center gap-2 text-body font-medium text-espresso underline underline-offset-4 transition-colors hover:text-brown"
               >
                 Read more reviews on Google <ArrowRight className="h-[10px] w-[16px]" />
               </a>
@@ -218,15 +216,14 @@ export default function Home() {
       </section>
 
       {/* CTA 90:1249 */}
-      <Band backdrop={place("130:1505", "90:1249")} frameH={617} className={`${SECTION_GAP} h-[520px]`} aria-labelledby="cta-title">
-        <div data-reveal className="absolute top-1/2 left-1/2 flex w-[900px] -translate-1/2 flex-col items-center gap-[26px] text-center">
-          <p className="text-[15px] leading-4 tracking-[-0.3px] text-cream">Elevate Your Beauty</p>
-          <h2 id="cta-title" className="text-[50px] leading-[60px] font-medium tracking-[-3px] text-white">
-            Schedule your consultation or book your appointment online today
-          </h2>
-          <BookingLink className={`${btnWhite} w-[208.3px] text-cocoa`}>Book Appointment</BookingLink>
-        </div>
-      </Band>
+      <CtaBanner
+        id="cta-title"
+        image={place("130:1505", "90:1249")}
+        kicker="Elevate Your Beauty"
+        title="Schedule your consultation or book your appointment online today"
+      >
+        <BookingLink className={`${btnWhite} text-cocoa`}>Book Appointment</BookingLink>
+      </CtaBanner>
     </>
   );
 }

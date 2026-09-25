@@ -23,6 +23,49 @@
   --font-serif: var(--font-ancizar), ui-serif, Georgia, serif;
   --font-manrope: var(--font-manrope-var), ui-sans-serif, sans-serif;
   --font-lora: var(--font-lora-var), ui-serif, serif;
+
+  /*
+   * Type scale: the Figma sizes at 90% (the design reads large in a browser), fluid down to phones.
+   * Use as text-h1 / text-h2 / text-h3 / text-lead / text-body / text-small.
+   */
+  --text-h1: clamp(2.125rem, 1.35rem + 2.4vw, 3.375rem); /* 34 → 54 */
+  --text-h1--line-height: 1.12;
+  --text-h1--letter-spacing: -0.045em;
+  --text-h2: clamp(1.875rem, 1.45rem + 1.35vw, 2.75rem); /* 30 → 44 */
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.05em;
+  --text-h3: clamp(1.0625rem, 1rem + 0.2vw, 1.1875rem); /* 17 → 19 */
+  --text-h3--line-height: 1.3;
+  --text-h3--letter-spacing: -0.02em;
+  --text-lead: clamp(1rem, 0.95rem + 0.25vw, 1.125rem); /* 16 → 18 */
+  --text-lead--line-height: 1.55;
+  --text-body: 0.9375rem; /* 15 */
+  --text-body--line-height: 1.7;
+  --text-small: 0.875rem; /* 14 */
+  --text-small--line-height: 1.6;
+}
+
+/* Centred content column: 1200px of content + 24px gutters. */
+@utility container-site {
+  width: 100%;
+  max-width: calc(1200px + 3rem);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+/*
+ * Vertical rhythm. Every cream content section is a .section: 72px (48px on phones) above and below,
+ * and consecutive sections share one gap. Full-width coloured bands (heroes, banners, the review block,
+ * the footer) are not .section: they carry their own padding and sit flush against each other.
+ */
+@utility section {
+  padding-block: 3rem;
+  @media (width >= 48rem) {
+    padding-block: 4.5rem;
+  }
+  & + & {
+    padding-top: 0;
+  }
 }
 
 html {
@@ -30,26 +73,11 @@ html {
 }
 
 body {
-  /* Desktop-only build: content is laid out on the 1440px design column, never narrower than 1280. */
-  min-width: 1280px;
   background: var(--color-cream);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
-}
-
-/* The 1440px design column, centred. Below 1440 the margins go negative and body clips the overflow. */
-.frame {
-  position: relative;
-  width: 1440px;
-  margin-inline: calc((100% - 1440px) / 2);
-}
-
-/* Full-viewport-width band from inside the design column (heroes, banners); pair with an inner .frame. */
-.bleed {
-  width: 100vw;
-  margin-inline: calc(50% - 50vw);
 }
 
 /* Serif italic accent used inside headlines, e.g. "Still *thinking* about…" */
@@ -99,10 +127,10 @@ body {
   [data-reveal]:not([data-reveal="stagger"]),
   [data-reveal="stagger"] > * {
     opacity: 0;
-    transform: translateY(28px);
+    transform: translateY(12px);
     transition:
-      opacity 0.8s cubic-bezier(0.2, 0.65, 0.2, 1),
-      transform 0.8s cubic-bezier(0.2, 0.65, 0.2, 1);
+      opacity 0.4s ease-out,
+      transform 0.4s ease-out;
   }
   [data-reveal][data-shown]:not([data-reveal="stagger"]),
   [data-reveal="stagger"][data-shown] > * {
@@ -110,42 +138,42 @@ body {
     transform: none;
   }
   /* Side entrances: the element glides in from the side it sits on. */
-  [data-reveal="from-left"]:not([data-shown]) { transform: translateX(-48px); }
-  [data-reveal="from-right"]:not([data-shown]) { transform: translateX(48px); }
-  [data-reveal="stagger"] > :nth-child(2) { transition-delay: 70ms; }
-  [data-reveal="stagger"] > :nth-child(3) { transition-delay: 140ms; }
-  [data-reveal="stagger"] > :nth-child(4) { transition-delay: 210ms; }
-  [data-reveal="stagger"] > :nth-child(5) { transition-delay: 280ms; }
-  [data-reveal="stagger"] > :nth-child(6) { transition-delay: 350ms; }
-  [data-reveal="stagger"] > :nth-child(n + 7) { transition-delay: 420ms; }
+  [data-reveal="from-left"]:not([data-shown]) { transform: translateX(-20px); }
+  [data-reveal="from-right"]:not([data-shown]) { transform: translateX(20px); }
+  [data-reveal="stagger"] > :nth-child(2) { transition-delay: 40ms; }
+  [data-reveal="stagger"] > :nth-child(3) { transition-delay: 80ms; }
+  [data-reveal="stagger"] > :nth-child(4) { transition-delay: 120ms; }
+  [data-reveal="stagger"] > :nth-child(5) { transition-delay: 160ms; }
+  [data-reveal="stagger"] > :nth-child(n + 6) { transition-delay: 200ms; }
 
   /* Hero copy: one short entrance on page load. */
-  .hero-in > * { animation: hero-in 0.9s cubic-bezier(0.2, 0.65, 0.2, 1) both; }
-  .hero-in > :nth-child(2) { animation-delay: 90ms; }
-  .hero-in > :nth-child(3) { animation-delay: 180ms; }
-  .hero-in > :nth-child(4) { animation-delay: 270ms; }
+  .hero-in > * { animation: hero-in 0.6s ease-out both; }
+  .hero-in > :nth-child(2) { animation-delay: 60ms; }
+  .hero-in > :nth-child(3) { animation-delay: 120ms; }
+  .hero-in > :nth-child(4) { animation-delay: 180ms; }
 }
 
-/* Auto-scrolling row (Marquee.tsx): two copies of the items, shifted by one copy's width. */
+/* Auto-scrolling, swipeable row (Marquee.tsx + AutoScroll.tsx): a real scroll container, scrollbar hidden. */
 .marquee {
-  overflow: hidden;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
-.marquee-track {
+.marquee::-webkit-scrollbar { display: none; }
+
+/* Non-interactive ticker (shop sale ribbon): two identical runs, shifted by one run's width. */
+.ticker { overflow: hidden; }
+.ticker-track {
   display: flex;
   width: max-content;
-  animation: marquee linear infinite;
+  animation: ticker linear infinite;
 }
-.marquee:hover .marquee-track,
-.marquee:focus-within .marquee-track {
-  animation-play-state: paused;
-}
-@keyframes marquee {
+@keyframes ticker {
   to { transform: translateX(-50%); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .marquee { overflow-x: auto; }
-  .marquee-track { animation: none !important; }
-  .marquee-track > [inert] { display: none; }
+  .ticker-track { animation: none !important; }
 }
 
 /* Before/after slider (BeforeAfter.tsx) */
@@ -157,13 +185,19 @@ body {
   from { opacity: 0; }
   to { opacity: 1; }
 }
-.ba-range::-webkit-slider-thumb { width: 44px; height: 350px; appearance: none; }
+.ba-range::-webkit-slider-thumb { width: 44px; height: 320px; appearance: none; }
 
 /* Membership hero: slow drifting warm light. */
 @keyframes glow-drift {
   0% { transform: translate3d(-8%, 0, 0) scale(1); opacity: 0.55; }
   50% { transform: translate3d(6%, -6%, 0) scale(1.15); opacity: 0.8; }
   100% { transform: translate3d(12%, 4%, 0) scale(0.95); opacity: 0.6; }
+}
+
+/* "Read more" (ReadMore.tsx): the expanded text fades in and settles. */
+@keyframes read-more {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
 }
 
 @keyframes hero-in {

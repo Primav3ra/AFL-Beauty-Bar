@@ -19,8 +19,8 @@ export function Reviews({ reviews, googleBadge, children }: { reviews: Review[];
   return (
     <div {...auto} className="max-w-[560px]" role={reviews.length > 1 ? "region" : undefined} aria-roledescription={reviews.length > 1 ? "carousel" : undefined} aria-label="Client reviews">
       <div key={i} className="animate-[fade-in_.6s_ease-out]" aria-live="polite">
-        <blockquote className="mt-8 text-[22px] leading-[36px] font-medium tracking-[-0.5px] text-espresso">“{r.text}”</blockquote>
-        <div className="mt-8 flex items-center gap-4">
+        <blockquote className="mt-5 text-[clamp(1.0625rem,0.95rem+0.45vw,1.25rem)] leading-[1.6] font-medium tracking-[-0.3px] text-espresso">“{r.text}”</blockquote>
+        <div className="mt-6 flex items-center gap-4">
           <span className="relative size-[52px] shrink-0 rounded-full bg-[#190e0d]" aria-hidden>
             {r.photo ? (
               // eslint-disable-next-line @next/next/no-img-element -- remote avatar from the reviews integration

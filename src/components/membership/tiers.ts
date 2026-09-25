@@ -1,6 +1,23 @@
-import type { Tier } from "./TierRow";
+// Copy is verbatim from Figma frame 729:3357 except two misspellings (Glutothione, fully body).
 
-// Copy is verbatim from Figma frame 729:3357 except two misspellings (Glutothione, fully body). x offsets are relative to x=159.
+export type Tier = {
+  id: string;
+  kicker: string;
+  title: string;
+  /** Figma text-box width of the title (layout hint from the design; unused by the tabs layout). */
+  titleWidth: number;
+  /** Monthly price, e.g. "119". */
+  price: string;
+  commitment: string;
+  listHeading: string;
+  /** Each bullet; inner arrays are the hard line breaks (U+2028) from Figma. */
+  items: string[][];
+  cta: string;
+  /** Design x offsets of the text column and photo (from the original row layout). */
+  textX: number;
+  imageX: number;
+  secondaryCta?: string;
+};
 
 export const glow: Tier = {
   id: "glow",

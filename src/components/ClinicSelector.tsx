@@ -26,20 +26,20 @@ export function ClinicSelector({ className = "" }: { className?: string }) {
 
   return (
     <div ref={ref} className={`relative text-white ${className}`}>
-      <p className="text-xl leading-[19.2px]">Selected Clinic</p>
+      <p className="text-small text-white/80">Selected Clinic</p>
       <button
         type="button"
         aria-haspopup="listbox"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="mt-2.5 flex h-[22px] cursor-pointer items-center gap-[22px] text-[30px] leading-[41.5px] font-semibold whitespace-nowrap"
+        className="mt-1.5 flex cursor-pointer items-center gap-4 text-[clamp(1.25rem,1rem+0.8vw,1.625rem)] leading-tight font-semibold whitespace-nowrap"
       >
         {clinic.short}
         <ChevronDown className={`h-[8.5px] w-[15px] transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
       {/* Opens upwards: the selector sits at the foot of the hero, which clips anything below it. */}
       {open && (
-        <ul role="listbox" aria-label="Choose a clinic" className="absolute right-0 bottom-full z-20 mb-4 w-[300px] animate-[curtain-in_.15s_ease-out] bg-white py-2 text-ink shadow-[0_18px_40px_-12px_rgba(27,8,4,0.45)]">
+        <ul role="listbox" aria-label="Choose a clinic" className="absolute bottom-full left-0 z-20 mb-4 w-[min(300px,calc(100vw-3rem))] md:right-0 md:left-auto animate-[curtain-in_.15s_ease-out] bg-white py-2 text-ink shadow-[0_18px_40px_-12px_rgba(27,8,4,0.45)]">
           {clinics.map((c) => {
             const selected = c.id === clinic.id;
             return (

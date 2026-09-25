@@ -5,17 +5,20 @@ import { FigmaImage, focalPoint, type ImageRef, type Placement } from "./FigmaIm
 type Placed = { src: ImageRef; place: Placement };
 
 /**
- * Edge-to-edge band (hero, banner). `backdrop` fills the whole viewport width with object-cover, framed
- * like the design's `frameH`-tall placement; children keep the 1440px design coordinates, centred.
+ * Edge-to-edge coloured band (hero, banner). `backdrop` fills it with object-cover, framed like the design's
+ * `frameH`-tall placement; children sit in the centred site container. Bands carry their own padding and
+ * sit flush against each other and against .section blocks.
  */
 export function Band({
-  backdrop, frameH, priority, imageClass = "", className = "", style, children, underlay, ...rest
+  backdrop, frameH, priority, imageClass = "", className = "", innerClass = "", style, children, underlay, ...rest
 }: {
   backdrop?: Placed | null;
   frameH?: number;
   priority?: boolean;
   imageClass?: string;
   className?: string;
+  /** Classes for the inner container (layout of the content). */
+  innerClass?: string;
   style?: CSSProperties;
   children?: ReactNode;
   /** Full-width layer between the photo and the content (scrims, blurred colour bands). */
@@ -24,38 +27,39 @@ export function Band({
   "aria-label"?: string;
 }) {
   return (
-    <section className={`bleed relative overflow-hidden bg-black ${className}`} style={style} {...rest}>
+    <section className={`relative overflow-hidden bg-black ${className}`} style={style} {...rest}>
       {backdrop && (
         <FigmaImage src={backdrop.src} cover priority={priority} position={focalPoint(backdrop.place, 1440, frameH ?? 633)} className={imageClass} />
       )}
       {underlay}
-      <div className="frame h-full">{children}</div>
+      <div className={`container-site relative w-full ${innerClass}`}>{children}</div>
     </section>
   );
 }
 
-/** Vertical rhythm between content sections. */
-export const SECTION_GAP = "mt-24";
+/** Heading → content gap (32px). */
+export const INTRO_GAP = "mt-8";
 
 /** Centred eyebrow / heading / text above a section's content (reveals on scroll). */
-export function SectionIntro({ eyebrow, title, text, id, className = "", titleClass = "" }: {
-  eyebrow?: string | null; title: ReactNode; text?: ReactNode; id?: string; className?: string; titleClass?: string;
+export function SectionIntro({ eyebrow, title, text, id, className = "", align = "center" }: {
+  eyebrow?: string | null; title: ReactNode; text?: ReactNode; id?: string; className?: string; align?: "center" | "left";
 }) {
+  const a = align === "center" ? "mx-auto items-center text-center" : "items-start text-left";
   return (
-    <div data-reveal className={`mx-auto flex max-w-[760px] flex-col items-center text-center ${className}`}>
+    <div data-reveal className={`flex max-w-[760px] flex-col ${a} ${className}`}>
       {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-      <h2 id={id} className={`text-[50px] leading-[58px] font-medium tracking-[-3px] whitespace-pre-line text-espresso ${eyebrow ? "mt-5" : ""} ${titleClass}`}>
+      <h2 id={id} className={`text-h2 font-medium whitespace-pre-line text-espresso ${eyebrow ? "mt-3" : ""}`}>
         {title}
       </h2>
-      {text && <p className="mt-5 max-w-[600px] text-[15px] leading-[26px] text-espresso/80">{text}</p>}
+      {text && <p className="mt-4 max-w-[600px] text-body text-espresso/80">{text}</p>}
     </div>
   );
 }
 
 export type Run = { text: string; accent: boolean };
 
-/** Headline with serif-italic accent words, e.g. "Non-Surgical *Breast Lift*". */
-export function Runs({ runs, accentClass = "text-[80px] font-medium" }: { runs: Run[]; accentClass?: string }) {
+/** Headline with serif-italic accent words, e.g. "Non-Surgical *Breast Lift*" (accent ≈ 1.2× the headline). */
+export function Runs({ runs, accentClass = "text-[1.2em] font-medium" }: { runs: Run[]; accentClass?: string }) {
   return (
     <>
       {runs.map((r, i) =>
@@ -77,112 +81,126 @@ export const label = (s: ReactNode) => (typeof s === "string" ? s.replace(/^\s*\
 /** Category label on a translucent black chip. */
 export function Kicker({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex h-10 items-center bg-black/50 px-6 text-[15px] leading-5 font-medium tracking-[-0.2px] text-white backdrop-blur-sm">
-      {label(children)}
-    </span>
+    <span className="inline-flex h-9 items-center bg-black/50 px-5 text-small font-medium text-white backdrop-blur-sm">{label(children)}</span>
   );
 }
 
 /** Small eyebrow above section headings. */
 export function Eyebrow({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <p className={`text-[15px] leading-4 font-medium tracking-[-0.2px] text-brown ${className}`}>{label(children)}</p>;
+  return <p className={`text-small font-medium text-brown ${className}`}>{label(children)}</p>;
 }
+
+/**
+ * Hero heights: "page" for category + treatment pages (next section peeks above the fold), "feature" for
+ * Home / About / Academy / Membership / Shop. Content sits at the bottom with 56–64px of padding.
+ */
+export const HERO = {
+  page: "min-h-[380px] md:min-h-[440px]",
+  feature: "min-h-[460px] md:min-h-[540px]",
+} as const;
 
 type HeroProps = {
   image?: { src: ImageRef; place: Placement } | null;
-  height: number;
-  kicker: string | null;
-  kickerTop: number;
-  titleTop: number;
-  title: Run[];
-  /** Base (non-accent) font size; accent words are 80px. */
-  titleSize?: number;
-  /** Letter-spacing of the headline in px (Figma values: -4.2 … -5.6). */
-  titleTracking?: number;
-  description?: string | null;
-  descriptionClass?: string;
-  descriptionWidth?: number | null;
-  /** Gap between title (77px line box) and description. */
-  gap?: number;
+  /** Figma frame height of the hero, used only to frame the photo like the design. */
+  frameH?: number;
+  size?: keyof typeof HERO;
+  kicker?: string | null;
+  title: ReactNode;
+  description?: ReactNode;
   children?: ReactNode;
-  /** Top offset of the blurred brown band (Figma Rectangle 1000002199, 2054×609, blur 171.4). */
-  blurTop?: number;
-  /**
-   * Px of the hero hidden under the 111px header. Some frames start the hero above y=111 (e.g. 101.7);
-   * the section is shortened by this much and its contents shifted up so everything below stays aligned.
-   */
-  overlap?: number;
+  /** Scrim colour behind the copy. */
+  tint?: "brown" | "black";
+  align?: "left" | "center";
+  id?: string;
+  imageClass?: string;
+  underlay?: ReactNode;
+  /** Extra content pinned inside the hero (e.g. the clinic selector), positioned by the caller. */
+  aside?: ReactNode;
 };
 
-/** Black hero with photo, brown blurred band, kicker chip and headline (category + detail pages). */
+/** Photo hero with a soft colour scrim, kicker chip, headline, lead and CTAs. */
 export function PageHero({
-  image, height, kicker, kickerTop, titleTop, title, titleSize = 60, titleTracking = -4.2,
-  description, descriptionClass = "text-[17px] leading-[23px]", descriptionWidth = 1162, gap = 36, children, blurTop = 402, overlap = 0,
+  image, frameH = 680, size = "page", kicker, title, description, children, tint = "brown", align = "left", id, imageClass, underlay, aside,
 }: HeroProps) {
+  const scrim = tint === "brown" ? "from-brown/95 via-brown/50" : "from-black/90 via-black/45";
+  const center = align === "center";
   return (
     <Band
       backdrop={image}
-      frameH={height}
+      frameH={frameH}
       priority
-      style={{ height: height - overlap }}
-      underlay={<div aria-hidden className="absolute -inset-x-[20%] bg-brown blur-[86px]" style={{ top: blurTop - overlap, height: 609 }} />}
+      imageClass={imageClass}
+      className={`flex ${HERO[size]}`}
+      innerClass={`flex flex-col justify-end gap-8 pt-24 pb-14 md:flex-row md:items-end md:justify-between md:pb-16 ${center ? "md:justify-center" : ""}`}
+      aria-labelledby={id}
+      underlay={
+        <>
+          <span aria-hidden className={`absolute inset-0 bg-gradient-to-t ${scrim} to-transparent`} />
+          {underlay}
+        </>
+      }
     >
-      <div className="hero-in absolute inset-x-0" style={{ top: -overlap, height }}>
-      {kicker && (
-        <div className="absolute left-[139px]" style={{ top: kickerTop }}>
-          <Kicker>{kicker}</Kicker>
-        </div>
-      )}
-      <div className="absolute left-[139px] flex flex-col" style={{ top: titleTop, gap }}>
-        <h1 className="leading-[76.6px] font-semibold whitespace-nowrap text-white" style={{ fontSize: titleSize, letterSpacing: titleTracking }}>
-          <Runs runs={title} />
+      <div className={`hero-in flex max-w-[760px] flex-col ${center ? "items-center text-center" : "items-start"}`}>
+        {kicker && <Kicker>{kicker}</Kicker>}
+        <h1 id={id} className={`text-h1 font-semibold text-white ${kicker ? "mt-5" : ""}`}>
+          {title}
         </h1>
-        {description && (
-          <p className={`whitespace-pre-line text-white ${descriptionClass}`} style={{ width: descriptionWidth ?? undefined }}>
-            {description}
-          </p>
-        )}
-        {children}
+        {description && <p className="mt-4 max-w-[640px] text-lead whitespace-pre-line text-white/90">{description}</p>}
+        {children && <div className="mt-7 flex flex-wrap gap-3">{children}</div>}
       </div>
-      </div>
+      {aside}
     </Band>
   );
 }
 
 type CtaProps = {
   image: { src: ImageRef; place: Placement };
-  height: number;
-  contentTop: number;
-  kicker: string;
-  title: string;
-  titleClass: string;
-  button: string;
-  href: string;
-  gap?: number;
-  width?: number;
-  /** The category CTAs left-align the headline inside its 868px box; the landing one centres it. */
-  titleAlign?: "left" | "center";
+  frameH?: number;
+  kicker?: string | null;
+  title: ReactNode;
+  children?: ReactNode;
+  /** Simple link button; use `children` for anything else. */
+  button?: string;
+  href?: string;
+  text?: ReactNode;
+  id?: string;
+  imageClass?: string;
 };
 
-/** "Schedule your consultation or book your appointment online today" banner. */
-export function CtaBanner({ image, height, contentTop, kicker, title, titleClass, button, href, gap = 16, width = 868, titleAlign = "center" }: CtaProps) {
+/** Photo banner with centred copy and one CTA ("Schedule your consultation…", "Be a part of the family"). */
+export function CtaBanner({ image, frameH = 617, kicker, title, children, button, href, text, id, imageClass }: CtaProps) {
   return (
-    <Band backdrop={image} frameH={height} style={{ height }}>
-      <div data-reveal className="absolute left-1/2 flex -translate-x-1/2 flex-col items-center text-center" style={{ top: contentTop, gap, width }}>
-        <p className="text-[17px] leading-4 tracking-[-0.3px] text-cream">{label(kicker)}</p>
-        <h2 className={`w-full font-medium text-white ${titleAlign === "left" ? "text-left" : ""} ${titleClass}`}>{title}</h2>
-        <Link
-          href={href}
-          className="flex h-[48.9px] min-w-[208.3px] items-center justify-center bg-white px-5 text-[17px] leading-[24.1px] font-medium tracking-[-0.5px] text-cocoa transition-colors hover:bg-cream"
-        >
-          {button}
-        </Link>
+    <Band
+      backdrop={image}
+      frameH={frameH}
+      imageClass={imageClass}
+      className="flex min-h-[340px]"
+      innerClass="flex flex-col items-center justify-center py-[72px] text-center"
+      aria-labelledby={id}
+      underlay={<span aria-hidden className="absolute inset-0 bg-black/35" />}
+    >
+      <div data-reveal className="flex max-w-[800px] flex-col items-center">
+        {kicker && <p className="text-small text-cream">{label(kicker)}</p>}
+        <h2 id={id} className="mt-3 text-[clamp(1.75rem,1.4rem+1.1vw,2.25rem)] leading-[1.2] font-medium tracking-[-0.04em] text-balance text-white">
+          {title}
+        </h2>
+        {text && <p className="mt-4 max-w-[640px] text-body text-white/85">{text}</p>}
+        <div className="mt-7">
+          {children ??
+            (button && href && (
+              <Link href={href} className={`${btnWhite} text-cocoa`}>
+                {button}
+              </Link>
+            ))}
+        </div>
       </div>
     </Band>
   );
 }
 
 export const btnWhite =
-  "flex h-[49px] items-center justify-center bg-white px-5 text-[17px] leading-[24.1px] font-medium tracking-[-0.5px] transition-colors hover:bg-cream";
+  "inline-flex h-12 items-center justify-center gap-2 bg-white px-6 text-[15px] leading-5 font-medium tracking-[-0.3px] whitespace-nowrap transition-colors hover:bg-cream";
 export const btnOutline =
-  "flex h-[49px] items-center justify-center border border-white/90 px-5 text-[17px] leading-[24.1px] font-medium tracking-[-0.5px] text-white transition-colors hover:bg-white hover:text-black";
+  "inline-flex h-12 items-center justify-center gap-2 border border-white/90 px-6 text-[15px] leading-5 font-medium tracking-[-0.3px] whitespace-nowrap text-white transition-colors hover:bg-white hover:text-black";
+export const btnBrown =
+  "inline-flex h-12 items-center justify-center gap-2 bg-brown px-6 text-[15px] leading-5 font-medium tracking-[-0.3px] whitespace-nowrap text-white transition-colors hover:bg-espresso";

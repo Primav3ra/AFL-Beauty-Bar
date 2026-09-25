@@ -64,13 +64,13 @@ export function BeforeAfter({ cases }: { cases: BaCase[] }) {
   return (
     <div
       ref={root}
-      className="flex items-center gap-24"
+      className="flex flex-col-reverse gap-8 md:flex-row md:items-center md:gap-16 lg:gap-20"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
-      <div className="w-[380px] shrink-0">
+      <div className="w-full shrink-0 md:w-[320px] lg:w-[340px]">
         <ul className="border-t border-espresso/15">
           {cases.map((k, n) => {
             const active = n === i;
@@ -80,12 +80,12 @@ export function BeforeAfter({ cases }: { cases: BaCase[] }) {
                   type="button"
                   aria-pressed={active}
                   onClick={() => show(n)}
-                  className="group flex w-full cursor-pointer items-center gap-5 py-4 text-left"
+                  className="group flex w-full cursor-pointer items-center gap-4 py-3 text-left"
                 >
-                  <span className="relative h-14 w-20 shrink-0 overflow-hidden bg-linen">
+                  <span className="relative h-12 w-[72px] shrink-0 overflow-hidden bg-linen">
                     <Image src={img(k.id, "after")} alt="" fill sizes="80px" className={`object-cover transition-opacity ${active ? "" : "opacity-60 group-hover:opacity-100"}`} />
                   </span>
-                  <span className={`text-[19px] leading-6 font-semibold tracking-[-0.5px] transition-colors ${active ? "text-espresso" : "text-espresso/45 group-hover:text-espresso"}`}>
+                  <span className={`text-h3 font-semibold transition-colors ${active ? "text-espresso" : "text-espresso/45 group-hover:text-espresso"}`}>
                     {k.title}
                   </span>
                 </button>
@@ -104,24 +104,24 @@ export function BeforeAfter({ cases }: { cases: BaCase[] }) {
           })}
         </ul>
         {c.href && (
-          <Link href={c.href} className="mt-8 inline-flex items-center gap-2 text-[17px] leading-6 font-medium tracking-[-0.5px] text-espresso underline underline-offset-4 transition-colors hover:text-brown">
+          <Link href={c.href} className="mt-6 inline-flex items-center gap-2 text-body font-medium text-espresso underline underline-offset-4 transition-colors hover:text-brown">
             See {c.title.toLowerCase()} <ArrowRight className="h-[10px] w-[16px]" />
           </Link>
         )}
       </div>
 
-      <figure className="relative h-[350px] flex-1 overflow-hidden bg-linen outline-offset-4 outline-brown select-none has-[input:focus-visible]:outline-2">
-        <Image key={`${c.id}-b`} src={img(c.id, "before")} alt={`${c.title}, before`} fill sizes="700px" className="animate-[fade-in_.5s_ease-out] object-cover" />
+      <figure className="relative h-[240px] w-full sm:h-[300px] md:h-[320px] md:flex-1 overflow-hidden bg-linen outline-offset-4 outline-brown select-none has-[input:focus-visible]:outline-2">
+        <Image key={`${c.id}-b`} src={img(c.id, "before")} alt={`${c.title}, before`} fill sizes="(min-width: 768px) 760px, 100vw" className="animate-[fade-in_.5s_ease-out] object-cover" />
         <div
           className={`absolute inset-0 ${sweeping ? "transition-[clip-path] duration-[1100ms] ease-[cubic-bezier(.2,.7,.2,1)]" : ""}`}
           style={{ clipPath: `inset(0 0 0 ${pos}%)` }}
           onTransitionEnd={() => setSweeping(false)}
         >
-          <Image key={`${c.id}-a`} src={img(c.id, "after")} alt={`${c.title}, after`} fill sizes="700px" className="animate-[fade-in_.5s_ease-out] object-cover" />
+          <Image key={`${c.id}-a`} src={img(c.id, "after")} alt={`${c.title}, after`} fill sizes="(min-width: 768px) 760px, 100vw" className="animate-[fade-in_.5s_ease-out] object-cover" />
         </div>
 
-        <span className="absolute top-4 left-4 bg-white/90 px-3 py-1 text-[14px] leading-5 font-medium text-espresso">Before</span>
-        <span className="absolute top-4 right-4 bg-white/90 px-3 py-1 text-[14px] leading-5 font-medium text-espresso">After</span>
+        <span className="absolute top-4 left-4 bg-white/90 px-3 py-1 text-small font-medium text-espresso">Before</span>
+        <span className="absolute top-4 right-4 bg-white/90 px-3 py-1 text-small font-medium text-espresso">After</span>
 
         {/* Divider + handle */}
         <span

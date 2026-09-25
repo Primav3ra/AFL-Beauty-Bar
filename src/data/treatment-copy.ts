@@ -3,8 +3,9 @@
 // - Hand Rejuvenation's headings say "Hair Rejuvenation"
 // - The only written FAQ answer is lorem-ipsum filler ("Offending belonging promotion…") → left empty
 // - FAQs come from Sanskriti's Figma comments (scripts/extract-faqs.mjs → faqs.generated.json). Where
-//   none are written (Sclerotherapy, Men's Procedure) only the design's real questions are kept, without
-//   answers; lorem-ipsum questions are dropped, and a page left with none hides its FAQ section.
+//   none are written, AI-drafted FAQs from ./faqs.drafted.ts are used (Sclerotherapy, Men's Procedure; pending
+//   owner review); otherwise only the design's real questions are kept and lorem-ipsum ones are dropped.
+import { draftedFaqs } from "./faqs.drafted";
 import faqs from "./faqs.generated.json";
 import type { Treatment } from "./treatments";
 
@@ -29,6 +30,7 @@ export function applyCopyFixes(list: Treatment[]): Treatment[] {
         title: t.faq.title?.replace("Fequently", "Frequently") ?? null,
         items:
           written[t.slug] ??
+          draftedFaqs[t.slug] ??
           t.faq.items
             .filter((i) => !isLoremQ(i.q))
             .map((i) => ({ q: i.q.replace(/`$/, ""), a: isFiller(i.a) ? null : i.a })),

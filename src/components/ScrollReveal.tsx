@@ -16,7 +16,8 @@ export function ScrollReveal() {
           io.unobserve(e.target);
         }
       },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
+      // Fire ~150px before the element scrolls in, so nothing is still blank when it arrives.
+      { rootMargin: "0px 0px 150px 0px", threshold: 0 },
     );
     const scan = () => document.querySelectorAll("[data-reveal]:not([data-shown])").forEach((el) => io.observe(el));
     scan();

@@ -27,7 +27,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body>
         <AnnouncementBar />
         <Navbar />
-        <main className="frame">{children}</main>
+        <main>{children}</main>
         <Footer />
         <Toaster />
         <ScrollReveal />

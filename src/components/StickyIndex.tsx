@@ -46,7 +46,8 @@ export function StickyIndex({ items, label }: { items: IndexItem[]; label: strin
   useLayoutEffect(() => {
     const ul = list.current;
     if (!ul || !active.length) return;
-    const lis = [...ul.children] as HTMLElement[];
+    // Names only: the bar itself is also a child of the list.
+    const lis = [...ul.querySelectorAll<HTMLElement>(":scope > li")];
     const idx = active.map((id) => items.findIndex((it) => it.id === id)).filter((i) => i >= 0);
     const first = lis[Math.min(...idx)];
     const last = lis[Math.max(...idx)];
@@ -58,7 +59,7 @@ export function StickyIndex({ items, label }: { items: IndexItem[]; label: strin
       <ul ref={list} className="relative border-l border-espresso/15">
         <span
           aria-hidden
-          className="absolute -left-px w-0.5 bg-brown transition-[top,height] duration-500 ease-[cubic-bezier(.2,.7,.2,1)]"
+          className="absolute -left-px w-0.5 bg-brown transition-[top,height] duration-300 ease-out"
           style={{ top: bar.top, height: bar.height }}
         />
         {items.map((it) => {
