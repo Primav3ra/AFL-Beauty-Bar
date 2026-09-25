@@ -11,7 +11,7 @@ export function showToast(message: string) {
 type Props = {
   children: ReactNode;
   className?: string;
-  /** Why it's a placeholder — recorded in data-placeholder and docs/INTERACTIONS.md. */
+  /** Why it's a placeholder — recorded in data-placeholder (scripts/crawl-links.mjs reports them). */
   reason?: string;
   message?: string;
   "aria-label"?: string;

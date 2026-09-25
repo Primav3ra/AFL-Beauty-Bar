@@ -3,6 +3,7 @@ import { Ancizar_Serif, Inter, Lora, Manrope } from "next/font/google";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
+import { ScrollReveal } from "@/components/ScrollReveal";
 import { Toaster } from "@/components/Toaster";
 import "./globals.css";
 
@@ -25,9 +26,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body>
         <AnnouncementBar />
         <Navbar />
-        <main>{children}</main>
+        <main className="frame">{children}</main>
         <Footer />
         <Toaster />
+        <ScrollReveal />
       </body>
     </html>
   );

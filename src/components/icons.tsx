@@ -68,3 +68,30 @@ export const Check = ({ className }: P) => (
     <path d="m3 8.5 3.2 3L13 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
+
+// Social glyphs for the dark footer (the Figma ones are raster images drawn for a light background).
+export const Instagram = ({ className }: P) => (
+  <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+    <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.7" />
+    <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.7" />
+    <circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" />
+  </svg>
+);
+
+export const XLogo = ({ className }: P) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+    <path d="M17.8 3h3.1l-6.8 7.8L22 21h-6.2l-4.9-6.4L5.3 21H2.2l7.3-8.3L1.9 3h6.4l4.4 5.8L17.8 3Zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5Z" />
+  </svg>
+);
+
+export const Facebook = ({ className }: P) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+    <path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.6-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.9v3h2.6V21h3Z" />
+  </svg>
+);
+
+export const LinkedIn = ({ className }: P) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+    <path d="M4.9 3.2a1.9 1.9 0 1 1 0 3.8 1.9 1.9 0 0 1 0-3.8ZM3.3 8.6h3.3V21H3.3V8.6Zm5.4 0h3.1v1.7h.1c.4-.8 1.5-1.7 3.1-1.7 3.3 0 3.9 2.2 3.9 5V21h-3.3v-6.6c0-1.6 0-3.6-2.2-3.6s-2.5 1.7-2.5 3.5V21H8.7V8.6Z" />
+  </svg>
+);

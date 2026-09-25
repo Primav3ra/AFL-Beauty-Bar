@@ -1,5 +1,6 @@
 import { Fragment, type ReactNode } from "react";
 import { PlaceholderLink } from "@/components/PlaceholderLink";
+import { CountUp } from "@/components/CountUp";
 import { Eyebrow } from "@/components/blocks";
 import { ArrowLong } from "@/components/icons";
 import { Crown } from "./icons";
@@ -26,16 +27,21 @@ export type Tier = {
 export const btnBrown =
   "flex h-[49px] w-[250px] items-center justify-center gap-[11.5px] bg-brown text-[17px] leading-5 font-medium tracking-[-0.5px] text-white transition-colors hover:bg-espresso";
 
-/** One membership row: text column + photo (black placeholder unless `media` is given). */
+/** One membership row: text column + photo (linen placeholder unless `media` is given). */
 export function TierRow({ tier, media }: { tier: Tier; media?: ReactNode }) {
   const t = tier;
   const titleId = `tier-${t.id}`;
   return (
     <article className="relative h-[675px]" aria-labelledby={titleId}>
-      <div className="absolute top-0 h-[675px] w-[577px] overflow-hidden bg-black" style={{ left: t.imageX }}>
+      {/* Photo glides in from its own side and drifts with the scroll. Linen stand-in until the owner supplies one. */}
+      <div
+        data-reveal={t.imageX > t.textX ? "from-right" : "from-left"}
+        className={`absolute top-0 h-[675px] w-[577px] overflow-hidden ${media ? "bg-black" : "bg-linen"}`}
+        style={{ left: t.imageX }}
+      >
         {media}
       </div>
-      <div className="absolute top-0 flex flex-col gap-9" style={{ left: t.textX }}>
+      <div data-reveal className="absolute top-0 flex flex-col gap-9" style={{ left: t.textX }}>
         <div className="flex flex-col gap-7">
           <Eyebrow>{t.kicker}</Eyebrow>
           <h3 id={titleId} className="text-[50px] leading-[60px] font-medium tracking-[-4px] text-espresso" style={{ width: t.titleWidth }}>
@@ -46,7 +52,7 @@ export function TierRow({ tier, media }: { tier: Tier; media?: ReactNode }) {
           <div className="flex flex-col gap-5">
             <p className="h-9 text-[50px] leading-9 font-bold tracking-[-3px]">
               <span className="text-[30px]">$</span>
-              {t.price}/<span className="text-[30px]">Month</span>
+              <CountUp value={Number(t.price)} />/<span className="text-[30px]">Month</span>
             </p>
             <p className="h-3 text-base leading-3 font-medium tracking-[-0.3px]">{t.commitment}</p>
           </div>
@@ -91,11 +97,11 @@ export function TierRow({ tier, media }: { tier: Tier; media?: ReactNode }) {
   );
 }
 
-/** Centered "/ The Process" + title + subtitle block that opens each membership category. */
+/** Centered "The Process" + title + subtitle block that opens each membership category. */
 export function SectionHead({ id, title, children, titleClass = "" }: { id: string; title: ReactNode; children: ReactNode; titleClass?: string }) {
   return (
     <div className="flex flex-col items-center gap-[18px] text-center">
-      <Eyebrow>/ The Process</Eyebrow>
+      <Eyebrow>The Process</Eyebrow>
       <h2 id={id} className={`text-[50px] leading-[60px] font-medium tracking-[-4px] text-espresso ${titleClass}`}>
         {title}
       </h2>

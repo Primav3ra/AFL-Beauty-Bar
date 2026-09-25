@@ -9,7 +9,6 @@ export const links = {
   cart: "https://aflbeautybar.com/cart/",
   // Linked from the old site's nav; the "alf" subdomain spelling is theirs.
   giftCards: "https://alfbeautybar.repeatmd.app/gift-cards/purchase",
-  acneTherapy: "https://aflbeautybar.com/acne-therapy/",
   googleReviews:
     "https://www.google.com/search?q=afl+beauty+bar#lrd=0x89c25f64e2136e31:0x2a9190f6a8c3a50a,1,,,,",
 } as const;

@@ -1,9 +1,11 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { FigmaImage, type ImageRef, type Placement } from "@/components/FigmaImage";
 import { bookingHref } from "@/config/links";
+import { useAutoAdvance } from "@/lib/use-auto-advance";
 import { mapsHref, telHref, type Clinic } from "@/data/clinics";
 import { BriefcaseIcon, PhoneIcon, PinIcon } from "./icons";
 
@@ -16,6 +18,8 @@ export type LocationSlide = {
   mapsAddress: string;
   phone: string;
   photo: { src: ImageRef; place: Placement } | null;
+  /** Plain image URL (office photos from the owner) when there's no Figma placement. */
+  photoUrl?: string;
   photoAlt: string;
 };
 
@@ -25,11 +29,12 @@ export type LocationSlide = {
  */
 export function LocationsCarousel({ slides }: { slides: LocationSlide[] }) {
   const [current, setCurrent] = useState(0);
+  const auto = useAutoAdvance(slides.length, setCurrent);
   const s = slides[current];
   return (
-    <div className="relative h-[464px] w-[1203px] overflow-hidden bg-brown" role="region" aria-roledescription="carousel" aria-label="Our locations">
+    <div {...auto} className="relative h-[464px] w-[1203px] overflow-hidden bg-brown" role="region" aria-roledescription="carousel" aria-label="Our locations">
       <div className="absolute top-[48px] left-[54px] flex w-[405px] flex-col items-start gap-[35px] text-white" aria-live="polite">
-        <p className="text-[15px] leading-4 tracking-[-0.3px] text-white/40">/ Our Locations</p>
+        <p className="text-[15px] leading-4 tracking-[-0.3px] text-white/40">Our Locations</p>
         <h3 className="text-[40px] leading-[60px] font-medium tracking-[-3.2px] whitespace-nowrap">{s.title}</h3>
         <div className="flex h-[60px] text-[15px] leading-5 font-medium">
           <a
@@ -71,6 +76,9 @@ export function LocationsCarousel({ slides }: { slides: LocationSlide[] }) {
       </div>
 
       <div className="group absolute top-0 left-[552px] h-[464px] w-[651px] overflow-hidden bg-black">
+        {s.photoUrl && (
+          <Image key={s.id} src={s.photoUrl} alt={s.photoAlt} fill sizes="651px" className="animate-[fade-in_.5s_ease-out] object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
+        )}
         {s.photo && (
           <FigmaImage
             key={s.id}

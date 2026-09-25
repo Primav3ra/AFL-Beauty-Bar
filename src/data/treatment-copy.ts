@@ -2,9 +2,17 @@
 // - "Fequently asked questions" → "Frequently asked questions" (all 32 pages)
 // - Hand Rejuvenation's headings say "Hair Rejuvenation"
 // - The only written FAQ answer is lorem-ipsum filler ("Offending belonging promotion…") → left empty
+// - FAQs come from Sanskriti's Figma comments (scripts/extract-faqs.mjs → faqs.generated.json). Where
+//   none are written (Sclerotherapy, Men's Procedure) only the design's real questions are kept, without
+//   answers; lorem-ipsum questions are dropped, and a page left with none hides its FAQ section.
+import faqs from "./faqs.generated.json";
 import type { Treatment } from "./treatments";
 
+const written = faqs as Record<string, { q: string; a: string }[]>;
 const isFiller = (a: string | null) => !!a && /^Offending belonging/.test(a);
+// The template's lorem-ipsum questions (they appear on every frame that wasn't filled in).
+const LOREM_Q = [/^The expense windows/, /^Six curiosity day/, /^Produce say the ten/, /^Simple innate summer/, /^Outward clothes promise/];
+const isLoremQ = (q: string) => LOREM_Q.some((r) => r.test(q));
 
 export function applyCopyFixes(list: Treatment[]): Treatment[] {
   return list.map((t) => {
@@ -19,7 +27,11 @@ export function applyCopyFixes(list: Treatment[]): Treatment[] {
       faq: {
         ...t.faq,
         title: t.faq.title?.replace("Fequently", "Frequently") ?? null,
-        items: t.faq.items.map((i) => ({ ...i, a: isFiller(i.a) ? null : i.a })),
+        items:
+          written[t.slug] ??
+          t.faq.items
+            .filter((i) => !isLoremQ(i.q))
+            .map((i) => ({ q: i.q.replace(/`$/, ""), a: isFiller(i.a) ? null : i.a })),
       },
     };
   });

@@ -3,10 +3,10 @@ import Link from "next/link";
 import { BookingLink } from "@/components/BookingLink";
 import { FigmaImage } from "@/components/FigmaImage";
 import { PlaceholderLink } from "@/components/PlaceholderLink";
-import { Eyebrow, Runs, btnWhite } from "@/components/blocks";
+import { Band, Eyebrow, Runs, SECTION_GAP, btnWhite } from "@/components/blocks";
 import { Crown, Doc, Growth, MedicalCase, Mentor, Rocket, Rosette, Storefront } from "@/components/academy/icons";
 import { ArrowLong, ArrowRight } from "@/components/icons";
-import { place } from "@/lib/figma";
+import { place, refOf } from "@/lib/figma";
 
 export const metadata: Metadata = { title: "Academy" };
 
@@ -46,13 +46,8 @@ const masterclasses = [
   { title: "Package for all Masterclasses", w: 907, text: "Get complete access to the full training suite covering advanced facial and body injectable techniques. Includes full curriculum materials, clinical resources, and bundled certification.", wide: true },
 ];
 
-const h2 = "text-[50px] leading-[60px] font-medium tracking-[-4px] text-espresso";
-const accent = "text-[60px] font-medium tracking-[-4px]";
-
-/** Double hairline between sections (Lines 300/301, 39px apart). */
-function Rule({ className = "" }: { className?: string }) {
-  return <div aria-hidden className={`h-[40px] border-y border-black/10 ${className}`} />;
-}
+const h2 = "text-[44px] leading-[52px] font-medium tracking-[-3px] text-espresso";
+const accent = "text-[52px] font-medium tracking-[-3px]";
 
 export default function AcademyPage() {
   const h = place("758:461", "411:888");
@@ -62,11 +57,16 @@ export default function AcademyPage() {
   return (
     <>
       {/* Hero 411:888 */}
-      <section className="relative h-[729px] overflow-hidden bg-black" aria-labelledby="academy-title">
-        <FigmaImage {...hero} priority sizes="1440px" alt="AFL Academy graduates holding their certificates" />
-        <div aria-hidden className="absolute bg-black opacity-85 blur-[86px]" style={{ left: -306, top: 374, width: 1973, height: 637 }} />
+      <Band
+        backdrop={hero}
+        frameH={729}
+        priority
+        className="h-[729px]"
+        aria-labelledby="academy-title"
+        underlay={<div aria-hidden className="absolute -inset-x-[20%] top-[374px] h-[637px] bg-black opacity-85 blur-[86px]" />}
+      >
         <p className="absolute top-[303px] left-[139px] flex h-10 w-[171px] items-center justify-center bg-black/60 text-[17px] leading-[19.8px] tracking-[-0.3px] text-white">
-          / Academy
+          Academy
         </p>
         <div className="absolute top-[374px] left-[139px] w-[810px]">
           <h1 id="academy-title" className="text-[60px] leading-[76.6px] font-semibold tracking-[-4.2px] whitespace-nowrap text-white">
@@ -81,24 +81,24 @@ export default function AcademyPage() {
             Schedule Consultation
           </BookingLink>
         </div>
-      </section>
+      </Band>
 
-      {/* Fatema Love Academy 411:724 */}
-      <section className="relative h-[1277px]" aria-labelledby="mentorship-title">
-        <div className="absolute top-[95px] left-[117px] w-[520.5px]">
-          <Eyebrow>/ Fatema Love Academy</Eyebrow>
-          <h2 id="mentorship-title" className={`mt-7 w-[319px] ${h2}`}>
-            Fatema Love <Runs runs={[{ text: "Academy", accent: true }]} accentClass={accent} />
+      {/* Fatema Love Academy 411:724 — compact; the photo stays pinned while the copy scrolls past */}
+      <section className="mt-24 flex items-start justify-center gap-20 px-[111px]" aria-labelledby="mentorship-title">
+        <div data-reveal className="w-[440px] shrink-0 text-espresso">
+          <Eyebrow>Fatema Love Academy</Eyebrow>
+          <h2 id="mentorship-title" className="mt-4 text-[44px] leading-[52px] font-medium tracking-[-3px]">
+            Fatema Love <Runs runs={[{ text: "Academy", accent: true }]} accentClass="text-[52px] font-medium tracking-[-3px]" />
           </h2>
-          <p className="mt-[50px] w-[510px] text-[15px] leading-[30px] text-espresso">
+          <p className="mt-5 text-[15px] leading-[26px] text-espresso/80">
             Led by industry expert Fatema Love, this hands-on mentorship program equips you with the tools, strategies, and industry connections needed to launch and scale a thriving spa business from scratch.
           </p>
-          <ul className="mt-[50px] flex flex-col gap-[25px]">
+          <ul className="mt-9 flex flex-col gap-6">
             {features.map(({ Icon, title, text }) => (
-              <li key={title} className="flex h-[91px] gap-2.5 text-espresso">
-                <Icon className="size-[35.5px] shrink-0" />
-                <p className="w-[475px] text-[15px] leading-[30px]">
-                  <strong className="block text-[17px] font-bold">{title}</strong>
+              <li key={title} className="flex gap-3">
+                <Icon className="size-7 shrink-0" />
+                <p className="text-[14px] leading-6 text-espresso/80">
+                  <strong className="block text-[15px] leading-6 font-bold text-espresso">{title}</strong>
                   {text}
                 </p>
               </li>
@@ -106,40 +106,41 @@ export default function AcademyPage() {
           </ul>
           <PlaceholderLink
             reason="no mentorship application/checkout target"
-            className="mt-[50px] flex h-[49px] w-[291px] items-center justify-center gap-[11.5px] bg-brown text-[17px] leading-5 font-medium tracking-[-0.5px] text-white transition-colors hover:bg-espresso"
+            className="mt-8 inline-flex h-[46px] items-center justify-center gap-[10px] bg-brown px-6 text-[15px] leading-5 font-medium tracking-[-0.3px] text-white transition-colors hover:bg-espresso"
           >
-            <Crown className="size-6" />
+            <Crown className="size-5" />
             Claim Your Mentorship →
           </PlaceholderLink>
         </div>
 
-        <div className="group absolute top-[95px] left-[726.5px] h-[645px] w-[576px] overflow-hidden bg-black">
-          <FigmaImage {...place("426:996", "426:990")} className="transition-transform duration-700 ease-out group-hover:scale-105" alt="Fatema Love" />
-        </div>
-
-        <div className="absolute top-[560px] left-[674px] h-[211px] w-[314px] bg-linen text-espresso">
-          <p className="absolute top-[22px] left-7 text-[50px] leading-[60px] font-semibold tracking-[-4px]">2.7M+</p>
-          <p className="absolute top-[89px] left-7 text-base leading-3 font-medium tracking-[-0.5px] whitespace-nowrap">Happy Students Worldwide</p>
-          {/* Four overlapping brown discs with a 4px linen outline; the leftmost sits on top. */}
-          <div aria-hidden>
-            {[87, 58, 29, 0].map((x) => (
-              <span key={x} className="absolute size-[55px] rounded-full border-4 border-linen bg-brown" style={{ top: 145, left: 24 + x }} />
-            ))}
+        <div data-reveal="from-right" className="sticky top-[117px] h-[560px] w-[500px] shrink-0">
+          <div className="group absolute inset-y-0 right-0 w-[440px] overflow-hidden bg-black">
+            <FigmaImage src={refOf("426:996")} cover sizes="440px" position="50% 20%" className="transition-transform duration-700 ease-out group-hover:scale-105" alt="Fatema Love" />
+          </div>
+          <div className="absolute bottom-10 left-0 w-[250px] bg-linen p-6 text-espresso">
+            <p className="text-[40px] leading-[46px] font-semibold tracking-[-3px]">2.7M+</p>
+            <p className="mt-1 text-[14px] leading-5 font-medium">Happy Students Worldwide</p>
+            {/* Four overlapping brown discs with a linen outline; the leftmost sits on top. */}
+            <div aria-hidden className="mt-4 flex">
+              {[0, 1, 2, 3].map((i) => (
+                <span key={i} className="-ml-3 size-11 rounded-full border-4 border-linen bg-brown first:ml-0" style={{ zIndex: 4 - i }} />
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Professional Accreditation 411:756 */}
-      <section className="relative h-[802px]" aria-labelledby="license-title">
+      <section data-reveal className="relative h-[760px]" aria-labelledby="license-title">
         <div className="absolute top-[43px] left-[119px]">
-          <Eyebrow>/ Professional Accreditation</Eyebrow>
+          <Eyebrow>Professional Accreditation</Eyebrow>
           <h2 id="license-title" className={`mt-7 whitespace-nowrap ${h2}`}>Fast-Track Your Professional License</h2>
           <p className="mt-7 text-[15px] leading-5 text-espresso">98% First-Attempt Board Exam Pass Rate</p>
         </div>
         <div className="absolute top-[235px] left-[119px] h-[524px] w-[1203px] overflow-hidden bg-brown">
           <FigmaImage {...place("441:1088", "441:1085")} alt="Treatment room at the AFL NYC office" />
           <div className="absolute top-[97px] left-[54px] flex w-[451px] flex-col gap-[35px]">
-            <Eyebrow className="text-white/40">/ Professional Accreditation</Eyebrow>
+            <Eyebrow className="text-white/40">Professional Accreditation</Eyebrow>
             <h3 className="w-[388px] text-[40px] leading-[50px] font-medium tracking-[-3.2px] text-white">
               Elevate Your Mastery. Get Nationally Certified
             </h3>
@@ -157,12 +158,10 @@ export default function AcademyPage() {
         </div>
       </section>
 
-      <Rule className="mt-[40px]" />
-
       {/* Career Pathways 441:1090 */}
-      <section className="relative mt-[65px] h-[741px]" aria-labelledby="cma-title">
+      <section data-reveal className="relative mt-12 h-[700px]" aria-labelledby="cma-title">
         <div className="absolute top-[46px] left-1/2 flex w-[513px] -translate-x-1/2 flex-col items-center text-center">
-          <Eyebrow>/ Career Pathways</Eyebrow>
+          <Eyebrow>Career Pathways</Eyebrow>
           <h2 id="cma-title" className={`mt-7 ${h2}`}>
             Certified Clinical Medical Assistant <Runs runs={[{ text: "Academy", accent: true }]} accentClass={accent} />
           </h2>
@@ -178,32 +177,27 @@ export default function AcademyPage() {
         ))}
       </section>
 
-      <Rule className="mt-[55px]" />
-
-      {/* Injector Academy 701:2614 */}
-      <section className="relative mt-[38px] h-[1862px]" aria-labelledby="injector-title">
-        <div className="absolute top-[46px] left-1/2 flex w-[789px] -translate-x-1/2 flex-col items-center text-center">
-          <Eyebrow className="leading-[15.4px] whitespace-pre"> / Advanced Aesthetic Training</Eyebrow>
-          <h2 id="injector-title" className={`mt-7 ${h2}`}>
+      {/* Injector Academy 701:2614 — the design's cards have no photos, so they're compact text cards */}
+      <section className="mt-24 px-[111px]" aria-labelledby="injector-title">
+        <div data-reveal className="flex flex-col items-center text-center">
+          <Eyebrow>Advanced Aesthetic Training</Eyebrow>
+          <h2 id="injector-title" className={`mt-5 ${h2}`}>
             Injector <Runs runs={[{ text: "Academy", accent: true }]} accentClass={accent} />
           </h2>
-          <p className="mt-7 text-[15px] leading-5 text-espresso">100% Practical &amp; Clinical Training</p>
+          <p className="mt-5 text-[15px] leading-5 text-espresso/80">100% Practical &amp; Clinical Training</p>
         </div>
-        <ul className="absolute top-[248px] left-[133px] grid w-[1175px] grid-cols-[567.3px_567.3px] gap-x-[40.4px] gap-y-[49.8px]">
+        <ul data-reveal="stagger" className="mt-12 grid grid-cols-3 gap-5">
           {masterclasses.map((m) => (
-            <li key={m.title} className={`group relative h-[351.3px] bg-black text-white ${m.wide ? "col-span-2" : ""}`}>
-              <h3 className="absolute top-[209.5px] left-[22.8px] text-[15.97px] leading-[13.6px] font-semibold tracking-[-0.8px] whitespace-nowrap">{m.title}</h3>
-              <p className="absolute top-[237.5px] left-[23px] text-[14.09px] leading-[19px] tracking-[-0.4px]" style={{ width: m.w }}>
-                {m.text}
-              </p>
-              <span aria-hidden className="absolute top-[299.2px] left-[26.4px] h-px w-[248.3px] bg-white/20" />
+            <li key={m.title} className={`group flex flex-col bg-white p-7 text-espresso transition-shadow duration-300 hover:shadow-[0_24px_48px_-24px_rgba(48,35,28,0.35)] ${m.wide ? "col-span-3" : ""}`}>
+              <h3 className="text-[17px] leading-6 font-semibold tracking-[-0.5px]">{m.title}</h3>
+              <p className="mt-3 flex-1 text-[14px] leading-[22px] text-espresso/75">{m.text}</p>
               <PlaceholderLink
                 reason={`no course detail/booking page for "${m.title}"`}
                 aria-label={`${m.title}: results, details & booking`}
-                className="absolute top-[318.1px] left-[26.4px] flex h-3 items-center gap-4 text-[15.97px] leading-[17.9px] tracking-[-0.5px] whitespace-nowrap hover:underline"
+                className="mt-6 flex items-center gap-3 border-t border-espresso/15 pt-4 text-[15px] leading-5 font-medium tracking-[-0.3px] hover:underline"
               >
                 <ArrowRight className="h-[9px] w-[11px] shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
-                Results, details &amp; booking.
+                Results, details &amp; booking
               </PlaceholderLink>
             </li>
           ))}
@@ -211,24 +205,22 @@ export default function AcademyPage() {
       </section>
 
       {/* CTA 758:471 */}
-      <section className="relative mt-[127px] h-[617px] overflow-hidden bg-black" aria-labelledby="academy-cta-title">
-        {/* Figma image filters: exposure -0.49, contrast +0.3, shadows -0.29 */}
-        <FigmaImage {...place("778:734", "758:471")} sizes="1440px" className="brightness-[.68] contrast-[1.15]" />
-        <div className="absolute top-[222px] left-[249px] flex w-[943px] flex-col items-center gap-[30px] text-center">
-          <p className="text-[15px] leading-4 tracking-[-0.3px] whitespace-pre text-cream"> / Elevate Your Beauty</p>
+      {/* Figma image filters: exposure -0.49, contrast +0.3, shadows -0.29 */}
+      <Band backdrop={place("778:734", "758:471")} frameH={617} imageClass="brightness-[.68] contrast-[1.15]" className={`${SECTION_GAP} h-[617px]`} aria-labelledby="academy-cta-title">
+        <div data-reveal className="absolute top-[222px] left-[249px] flex w-[943px] flex-col items-center gap-[30px] text-center">
+          <p className="text-[15px] leading-4 tracking-[-0.3px] whitespace-pre text-cream">Elevate Your Beauty</p>
           <h2 id="academy-cta-title" className="text-[50px] leading-[50px] font-medium tracking-[-3px] text-white">
             Book your appointment online today
           </h2>
-          <BookingLink type="virtual" className={`${btnWhite} h-[48.9px] w-[208.3px] px-0! whitespace-nowrap text-cocoa`}>
+          <BookingLink type="virtual" className={`${btnWhite} h-[49px] px-8 whitespace-nowrap text-cocoa`}>
             Schedule Consultation
           </BookingLink>
         </div>
-      </section>
+      </Band>
 
       {/* Be a part of the family 455:1242 */}
-      <section className="relative mt-[51px] h-[633px] overflow-hidden bg-black" aria-labelledby="family-title">
-        <FigmaImage src="f6c095f9" crop={{ x: 0, y: 0, w: 1441, h: 633 }} sizes="1440px" />
-        <div className="absolute top-[184px] left-[353px] flex w-[744px] flex-col gap-5 text-center">
+      <Band backdrop={{ src: "f6c095f9", place: { box: { x: 0, y: 0, w: 1441, h: 633 } } }} frameH={633} className="h-[633px]" aria-labelledby="family-title">
+        <div data-reveal className="absolute top-[184px] left-[353px] flex w-[744px] flex-col gap-5 text-center">
           <p className="text-[15px] leading-4 tracking-[-0.3px] text-cream">Elevate Your Beauty</p>
           <h2 id="family-title" className="text-[50px] leading-[74px] font-medium tracking-[-4px] text-white">
             Be a part of the family.
@@ -242,8 +234,7 @@ export default function AcademyPage() {
           See membership packages
           <ArrowLong className="h-[10px] w-[21px] transition-transform group-hover:translate-x-0.5" />
         </Link>
-      </section>
-      <div className="h-3" />
+      </Band>
     </>
   );
 }

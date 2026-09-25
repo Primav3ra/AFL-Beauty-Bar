@@ -9,6 +9,13 @@ const boxes = data.boxes as Record<string, Rect>;
 // Flips aren't exposed in the REST file JSON; these were found by visual comparison with the renders.
 const FLIP_Y = new Set(["6c1f024e"]);
 
+/** Image asset of Figma image node `id` (for object-cover rendering, where no placement is needed). */
+export function refOf(id: string): ImageRef {
+  const n = images[id];
+  if (!n) throw new Error(`Figma image node ${id} not found (run scripts/gen-placements.mjs)`);
+  return n.ref;
+}
+
 /**
  * Pixel-exact placement of Figma image node `id`, relative to its ancestor `anchor`
  * (the element you render as `relative overflow-hidden`). Throws at build time if ids are wrong.

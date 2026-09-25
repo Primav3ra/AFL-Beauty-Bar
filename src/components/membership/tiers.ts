@@ -4,7 +4,7 @@ import type { Tier } from "./TierRow";
 
 export const glow: Tier = {
   id: "glow",
-  kicker: "/ Best for: Skin Maintenance & Exclusive Savings",
+  kicker: "Best for: Skin Maintenance & Exclusive Savings",
   title: "AFL Glow Membership",
   titleWidth: 466,
   price: "119",
@@ -27,7 +27,7 @@ export const glow: Tier = {
 export const smoothTiers: Tier[] = [
   {
     id: "smooth-starter",
-    kicker: "/ Best for: Skin Maintenance & Exclusive Savings",
+    kicker: "Best for: Skin Maintenance & Exclusive Savings",
     title: "Option #1: Smooth Starter",
     titleWidth: 527,
     price: "179",
@@ -48,7 +48,7 @@ export const smoothTiers: Tier[] = [
   },
   {
     id: "signature-smooth",
-    kicker: "/ Best For: Consistent Hair Removal on Large Areas",
+    kicker: "Best For: Consistent Hair Removal on Large Areas",
     title: "Option #2: Signature Smooth",
     titleWidth: 452,
     price: "249",
@@ -68,7 +68,7 @@ export const smoothTiers: Tier[] = [
   },
   {
     id: "ultra-smooth-elite",
-    kicker: "/ Best For: Full Body Laser Removal",
+    kicker: "Best For: Full Body Laser Removal",
     title: "Option #3: Ultra Smooth Elite",
     titleWidth: 484,
     price: "449",
@@ -90,7 +90,7 @@ export const smoothTiers: Tier[] = [
   },
   {
     id: "tox-club",
-    kicker: "/ Best for: Botox and Dysport Lovers",
+    kicker: "Best for: Botox and Dysport Lovers",
     title: "AFL Tox Club",
     titleWidth: 452,
     price: "129",
@@ -112,7 +112,7 @@ export const smoothTiers: Tier[] = [
   },
   {
     id: "body-goals",
-    kicker: "/ Best for: Weight Loss & Body Contouring",
+    kicker: "Best for: Weight Loss & Body Contouring",
     title: "Body Goals Membership",
     titleWidth: 503,
     price: "179",
@@ -136,7 +136,7 @@ export const smoothTiers: Tier[] = [
   },
   {
     id: "radiance",
-    kicker: "/ Best for: Anti-aging & Rejuvenation",
+    kicker: "Best for: Anti-aging & Rejuvenation",
     title: "AFL Radiance Membership",
     titleWidth: 452,
     price: "179",
@@ -161,7 +161,7 @@ export const smoothTiers: Tier[] = [
 export const dripTiers: Tier[] = [
   {
     id: "mini-drip",
-    kicker: "/ Best for: Vitamin Injectables and Mini IV Drips",
+    kicker: "Best for: Vitamin Injectables and Mini IV Drips",
     title: "Option #1: AFL Mini Drip Club",
     titleWidth: 586,
     price: "69",
@@ -181,7 +181,7 @@ export const dripTiers: Tier[] = [
   },
   {
     id: "drip-club",
-    kicker: "/ Best for: Hydration & Recovery",
+    kicker: "Best for: Hydration & Recovery",
     title: "Option #2: AFL Drip Club",
     titleWidth: 504,
     price: "99",

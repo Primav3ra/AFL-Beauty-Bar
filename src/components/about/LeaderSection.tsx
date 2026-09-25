@@ -22,52 +22,46 @@ type Props = {
   bioWidth?: number;
   /** "right": text column on the right (Founder), "left": text on the left (COO). */
   textSide: "left" | "right";
-  height: number;
   children?: ReactNode;
 };
 
-/** Leader profile (Figma 455:1268 / 464:1809): 576×645 portrait + stacked copy column, 95px top padding. */
-export function LeaderSection({ id, role, name, lead, leadWidth, highlights, aboutLabel, bio, photo, photoAlt, photoFilter = "", bioWidth = 520, textSide, height, children }: Props) {
-  const textLeft = textSide === "right" ? 782 : 146;
-  const photoLeft = textSide === "right" ? 146.5 : 726.5;
+/**
+ * Leader profile (Figma 455:1268 / 464:1809): portrait beside a compact copy column, sized so the whole
+ * profile fits one screen. The portrait stays pinned and travels with the reader while the copy scrolls past.
+ */
+export function LeaderSection({ id, role, name, lead, highlights, aboutLabel, bio, photo, photoAlt, photoFilter = "", textSide, children }: Props) {
   return (
-    <section className="relative" style={{ height }} aria-labelledby={id}>
-      <div className="group absolute top-[95px] h-[645px] w-[576px] overflow-hidden bg-black" style={{ left: photoLeft }}>
-        <FigmaImage {...photo} alt={photoAlt} sizes="576px" className={`transition-transform duration-700 ease-out group-hover:scale-105 ${photoFilter}`} />
+    <section className={`mt-24 flex items-start justify-center gap-20 px-[111px] ${textSide === "left" ? "flex-row-reverse" : ""}`} aria-labelledby={id}>
+      <div data-reveal={textSide === "left" ? "from-right" : "from-left"} className="group sticky top-[117px] h-[560px] w-[460px] shrink-0 overflow-hidden bg-black">
+        <FigmaImage src={photo.src} cover sizes="460px" position="50% 20%" alt={photoAlt} className={`transition-transform duration-700 ease-out group-hover:scale-105 ${photoFilter}`} />
       </div>
 
-      <div className="absolute top-[95px] flex w-[525px] flex-col items-start gap-[50px] text-espresso" style={{ left: textLeft }}>
-        <div className="flex flex-col gap-[28px]">
-          <Eyebrow>{role}</Eyebrow>
-          <h2 id={id} className="text-[50px] leading-[60px] font-medium tracking-[-4px] whitespace-nowrap">
-            {name}
-          </h2>
-        </div>
+      <div data-reveal className="flex w-[420px] flex-col items-start text-espresso">
+        <Eyebrow>{role}</Eyebrow>
+        <h2 id={id} className="mt-4 text-[44px] leading-[52px] font-medium tracking-[-3px] whitespace-nowrap">
+          {name}
+        </h2>
+        <p className="mt-6 text-[16px] leading-[28px] font-semibold">{lead}</p>
 
-        <p className="text-[17px] leading-[30px] font-semibold" style={{ width: leadWidth }}>
-          {lead}
-        </p>
-
-        <ul className="flex flex-col gap-[25px]">
+        <ul className="mt-9 flex flex-col gap-6">
           {highlights.map(({ icon: Icon, title, body }) => (
-            <li key={title} className="flex h-[91px] w-[520.5px] gap-[10px]">
-              <Icon className="size-[35.5px] shrink-0" />
-              <div className="w-[475px]">
-                <h3 className="text-[17px] leading-[30px] font-bold">{title}</h3>
-                <p className="text-[15px] leading-[30px]">{body}</p>
+            <li key={title} className="flex gap-3">
+              <Icon className="size-7 shrink-0" />
+              <div>
+                <h3 className="text-[15px] leading-6 font-bold">{title}</h3>
+                <p className="mt-1 text-[14px] leading-6 text-espresso/80">{body}</p>
               </div>
             </li>
           ))}
         </ul>
 
-        <Eyebrow>{aboutLabel}</Eyebrow>
-
-        <p className="text-[15px] leading-[35px] font-medium" style={{ width: bioWidth }}>
+        <p className="mt-9 text-[14px] leading-[27px] text-espresso/80">
+          <span className="font-semibold text-brown">{aboutLabel}. </span>
           {bio}
         </p>
 
-        <BookingLink className="flex h-[49px] w-[291px] items-center justify-center gap-[11.4px] bg-brown text-[17px] leading-5 font-medium tracking-[-0.5px] text-white transition-colors hover:bg-espresso">
-          <CrownIcon className="size-6 shrink-0" />
+        <BookingLink className="mt-9 flex h-[46px] items-center justify-center gap-[10px] bg-brown px-6 text-[15px] leading-5 font-medium tracking-[-0.3px] text-white transition-colors hover:bg-espresso">
+          <CrownIcon className="size-5 shrink-0" />
           Book Your Consultation →
         </BookingLink>
       </div>

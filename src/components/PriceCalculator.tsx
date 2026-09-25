@@ -2,7 +2,7 @@
 
 import { useId, useState } from "react";
 import type { Pricing } from "@/data/pricing";
-import { estimate, type Estimate } from "@/lib/estimate";
+import { estimate } from "@/lib/estimate";
 import type { Treatment } from "@/data/treatments";
 import { ChevronDown } from "./icons";
 
@@ -169,50 +169,9 @@ export function PriceCalculator({ labels, pricing }: Props) {
           </p>
         </output>
       </div>
-      {/* Figma 239:1385 — verbatim footnote bar */}
-      <p className="text-espresso mx-auto mt-[50px] w-[1290px] px-[18px] py-[11px] text-center text-[17px] leading-[23px] italic">
-        {labels.footnote}
-      </p>
-      <CalcNotes pricing={pricing} est={est} />
-    </div>
-  );
-}
-
-/** How the estimate was worked out + sources, under the white box (the design's footnote bar stays verbatim). */
-function CalcNotes({ pricing, est }: { pricing: Pricing; est: Estimate }) {
-  const link = (s: { name: string | null; url: string | null }) =>
-    s.url ? (
-      <a
-        href={s.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="hover:text-espresso underline"
-      >
-        {s.name}
-      </a>
-    ) : (
-      s.name
-    );
-  return (
-    <div className="text-espresso/60 mt-1.5 text-center text-[13px] leading-5" data-calc-notes>
-      {est.notes.map((n) => (
-        <p key={n}>{n}</p>
-      ))}
-      <p>
-        {pricing.priceUSD == null ? (
-          "No published price found for this treatment. Price on consultation."
-        ) : (
-          <>
-            Estimate based on published averages; pricing confirmed after consultation. Source:{" "}
-            {link({ name: pricing.sourceName, url: pricing.sourceUrl })}
-            {est.addOnSources.map((a) => (
-              <span key={a.label}>
-                ; {a.label}: {link(a.source)}
-              </span>
-            ))}
-            , retrieved {pricing.retrievedOn}.
-          </>
-        )}
+      {/* Figma 239:1385 footnote. Price sources stay in src/data/pricing.ts and docs/, not on the page. */}
+      <p className="text-espresso/70 mx-auto mt-8 max-w-[900px] text-center text-[14px] leading-[22px]">
+        {labels.footnote?.replace(/^\*/, "")}
       </p>
     </div>
   );

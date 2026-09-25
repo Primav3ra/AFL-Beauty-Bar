@@ -1,6 +1,56 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
-import { FigmaImage, type ImageRef, type Placement } from "./FigmaImage";
+import type { CSSProperties, ReactNode } from "react";
+import { FigmaImage, focalPoint, type ImageRef, type Placement } from "./FigmaImage";
+
+type Placed = { src: ImageRef; place: Placement };
+
+/**
+ * Edge-to-edge band (hero, banner). `backdrop` fills the whole viewport width with object-cover, framed
+ * like the design's `frameH`-tall placement; children keep the 1440px design coordinates, centred.
+ */
+export function Band({
+  backdrop, frameH, priority, imageClass = "", className = "", style, children, underlay, ...rest
+}: {
+  backdrop?: Placed | null;
+  frameH?: number;
+  priority?: boolean;
+  imageClass?: string;
+  className?: string;
+  style?: CSSProperties;
+  children?: ReactNode;
+  /** Full-width layer between the photo and the content (scrims, blurred colour bands). */
+  underlay?: ReactNode;
+  "aria-labelledby"?: string;
+  "aria-label"?: string;
+}) {
+  return (
+    <section className={`bleed relative overflow-hidden bg-black ${className}`} style={style} {...rest}>
+      {backdrop && (
+        <FigmaImage src={backdrop.src} cover priority={priority} position={focalPoint(backdrop.place, 1440, frameH ?? 633)} className={imageClass} />
+      )}
+      {underlay}
+      <div className="frame h-full">{children}</div>
+    </section>
+  );
+}
+
+/** Vertical rhythm between content sections. */
+export const SECTION_GAP = "mt-24";
+
+/** Centred eyebrow / heading / text above a section's content (reveals on scroll). */
+export function SectionIntro({ eyebrow, title, text, id, className = "", titleClass = "" }: {
+  eyebrow?: string | null; title: ReactNode; text?: ReactNode; id?: string; className?: string; titleClass?: string;
+}) {
+  return (
+    <div data-reveal className={`mx-auto flex max-w-[760px] flex-col items-center text-center ${className}`}>
+      {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+      <h2 id={id} className={`text-[50px] leading-[58px] font-medium tracking-[-3px] whitespace-pre-line text-espresso ${eyebrow ? "mt-5" : ""} ${titleClass}`}>
+        {title}
+      </h2>
+      {text && <p className="mt-5 max-w-[600px] text-[15px] leading-[26px] text-espresso/80">{text}</p>}
+    </div>
+  );
+}
 
 export type Run = { text: string; accent: boolean };
 
@@ -21,24 +71,21 @@ export function Runs({ runs, accentClass = "text-[80px] font-medium" }: { runs: 
   );
 }
 
-/** "/ Body" style label on a translucent black chip. */
+/** Drops the design's leading "/ " from labels ("/ Body Treatments" → "Body Treatments"). */
+export const label = (s: ReactNode) => (typeof s === "string" ? s.replace(/^\s*\/\s*/, "") : s);
+
+/** Category label on a translucent black chip. */
 export function Kicker({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex h-10 items-center bg-black/60 px-10 text-[17px] leading-[19.8px] tracking-[-0.3px] text-white">
-      {children}
+    <span className="inline-flex h-10 items-center bg-black/50 px-6 text-[15px] leading-5 font-medium tracking-[-0.2px] text-white backdrop-blur-sm">
+      {label(children)}
     </span>
   );
 }
 
-/** Small "/ The Process" eyebrow above section headings. */
+/** Small eyebrow above section headings. */
 export function Eyebrow({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <p className={`text-[15px] leading-4 tracking-[-0.3px] text-espresso/40 ${className}`}>{children}</p>;
-}
-
-export function DoubleRule() {
-  return (
-    <div className="h-[39px] border-y border-black/10" aria-hidden />
-  );
+  return <p className={`text-[15px] leading-4 font-medium tracking-[-0.2px] text-brown ${className}`}>{label(children)}</p>;
 }
 
 type HeroProps = {
@@ -73,10 +120,14 @@ export function PageHero({
   description, descriptionClass = "text-[17px] leading-[23px]", descriptionWidth = 1162, gap = 36, children, blurTop = 402, overlap = 0,
 }: HeroProps) {
   return (
-    <section className="relative overflow-hidden bg-black" style={{ height: height - overlap }}>
-      <div className="absolute inset-x-0" style={{ top: -overlap, height }}>
-      {image && <FigmaImage {...image} priority sizes="1440px" />}
-      <div aria-hidden className="absolute bg-brown blur-[86px]" style={{ left: -306, top: blurTop, width: 2054, height: 609 }} />
+    <Band
+      backdrop={image}
+      frameH={height}
+      priority
+      style={{ height: height - overlap }}
+      underlay={<div aria-hidden className="absolute -inset-x-[20%] bg-brown blur-[86px]" style={{ top: blurTop - overlap, height: 609 }} />}
+    >
+      <div className="hero-in absolute inset-x-0" style={{ top: -overlap, height }}>
       {kicker && (
         <div className="absolute left-[139px]" style={{ top: kickerTop }}>
           <Kicker>{kicker}</Kicker>
@@ -94,7 +145,7 @@ export function PageHero({
         {children}
       </div>
       </div>
-    </section>
+    </Band>
   );
 }
 
@@ -116,10 +167,9 @@ type CtaProps = {
 /** "Schedule your consultation or book your appointment online today" banner. */
 export function CtaBanner({ image, height, contentTop, kicker, title, titleClass, button, href, gap = 16, width = 868, titleAlign = "center" }: CtaProps) {
   return (
-    <section className="relative overflow-hidden bg-black" style={{ height }}>
-      <FigmaImage {...image} sizes="1440px" />
-      <div className="absolute left-1/2 flex -translate-x-1/2 flex-col items-center text-center" style={{ top: contentTop, gap, width }}>
-        <p className="text-[17px] leading-4 tracking-[-0.3px] text-cream">{kicker}</p>
+    <Band backdrop={image} frameH={height} style={{ height }}>
+      <div data-reveal className="absolute left-1/2 flex -translate-x-1/2 flex-col items-center text-center" style={{ top: contentTop, gap, width }}>
+        <p className="text-[17px] leading-4 tracking-[-0.3px] text-cream">{label(kicker)}</p>
         <h2 className={`w-full font-medium text-white ${titleAlign === "left" ? "text-left" : ""} ${titleClass}`}>{title}</h2>
         <Link
           href={href}
@@ -128,13 +178,8 @@ export function CtaBanner({ image, height, contentTop, kicker, title, titleClass
           {button}
         </Link>
       </div>
-    </section>
+    </Band>
   );
-}
-
-/** White / outlined pair of CTA buttons used in the heroes. */
-export function HeroButtons({ primary, secondary }: { primary: ReactNode; secondary: ReactNode }) {
-  return <div className="flex gap-[22px]">{primary}{secondary}</div>;
 }
 
 export const btnWhite =

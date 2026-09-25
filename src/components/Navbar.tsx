@@ -13,7 +13,7 @@ const LOGO = { box: { x: 0, y: 0, w: 111, h: 56 }, img: { x: -28.3, y: -26.3, w:
 
 const navText = "text-[15px] leading-[24.1px] font-medium tracking-[-0.4px] text-ink";
 
-function NavItem({ href, label, chevron = false }: { href: string; label: string; chevron?: boolean }) {
+function NavItem({ href, label }: { href: string; label: string }) {
   const pathname = usePathname();
   const active = pathname === href || pathname.startsWith(href + "/");
   return (
@@ -22,7 +22,6 @@ function NavItem({ href, label, chevron = false }: { href: string; label: string
         {label}
         <span className={`absolute -bottom-0.5 left-0 h-px bg-ink transition-all duration-300 ${active ? "w-full" : "w-0 group-hover:w-full"}`} />
       </span>
-      {chevron && <ChevronDown className="h-[7.2px] w-[12.6px]" />}
     </Link>
   );
 }
@@ -61,8 +60,9 @@ export function Navbar() {
   };
 
   return (
-    <div ref={wrapRef} className="relative z-50" onMouseLeave={hide}>
-      <nav className="flex h-[69px] items-center bg-white pl-[89px]">
+    <div ref={wrapRef} className="sticky top-0 z-50 shadow-[0_1px_0_rgba(48,35,28,0.08)]" onMouseLeave={hide}>
+      <nav className="bg-white">
+        <div className="frame flex h-[69px] items-center pl-[89px]">
         <div className="flex h-14 items-center gap-[180px]">
           <Link href="/" aria-label="AFL Beauty Bar — home" className="relative block h-14 w-[111px] shrink-0">
             {/* Figma 325:87 "Gold Logo FINAL 1" — cropped fill (see scripts/crops.mjs 325:85) */}
@@ -86,8 +86,8 @@ export function Navbar() {
             <div onMouseEnter={hide} className="contents">
               <NavItem href="/academy" label="Academy" />
               <NavItem href="/membership" label="Membership" />
-              <NavItem href="/about" label="About" chevron />
-              <NavItem href="/shop" label="Shop" chevron />
+              <NavItem href="/about" label="About" />
+              <NavItem href="/shop" label="Shop" />
             </div>
           </div>
 
@@ -105,6 +105,7 @@ export function Navbar() {
               Book Appointment <Bookmark className="size-6" />
             </Link>
           </div>
+        </div>
         </div>
       </nav>
 

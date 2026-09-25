@@ -30,15 +30,26 @@ html {
 }
 
 body {
-  /* Desktop-only build: design width 1440, never narrower than 1280. */
+  /* Desktop-only build: content is laid out on the 1440px design column, never narrower than 1280. */
   min-width: 1280px;
-  max-width: 1440px;
-  margin-inline: auto;
   background: var(--color-cream);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
+}
+
+/* The 1440px design column, centred. Below 1440 the margins go negative and body clips the overflow. */
+.frame {
+  position: relative;
+  width: 1440px;
+  margin-inline: calc((100% - 1440px) / 2);
+}
+
+/* Full-viewport-width band from inside the design column (heroes, banners); pair with an inner .frame. */
+.bleed {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
 }
 
 /* Serif italic accent used inside headlines, e.g. "Still *thinking* about…" */
@@ -78,6 +89,92 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/*
+ * Scroll reveal (ScrollReveal.tsx sets data-shown when an element enters the viewport).
+ *   data-reveal          the element fades up
+ *   data-reveal="stagger" its children fade up one after another (grids)
+ * Only with JS and without reduced-motion, so content is never hidden otherwise.
+ */
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  [data-reveal]:not([data-reveal="stagger"]),
+  [data-reveal="stagger"] > * {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 0.8s cubic-bezier(0.2, 0.65, 0.2, 1),
+      transform 0.8s cubic-bezier(0.2, 0.65, 0.2, 1);
+  }
+  [data-reveal][data-shown]:not([data-reveal="stagger"]),
+  [data-reveal="stagger"][data-shown] > * {
+    opacity: 1;
+    transform: none;
+  }
+  /* Side entrances: the element glides in from the side it sits on. */
+  [data-reveal="from-left"]:not([data-shown]) { transform: translateX(-48px); }
+  [data-reveal="from-right"]:not([data-shown]) { transform: translateX(48px); }
+  [data-reveal="stagger"] > :nth-child(2) { transition-delay: 70ms; }
+  [data-reveal="stagger"] > :nth-child(3) { transition-delay: 140ms; }
+  [data-reveal="stagger"] > :nth-child(4) { transition-delay: 210ms; }
+  [data-reveal="stagger"] > :nth-child(5) { transition-delay: 280ms; }
+  [data-reveal="stagger"] > :nth-child(6) { transition-delay: 350ms; }
+  [data-reveal="stagger"] > :nth-child(n + 7) { transition-delay: 420ms; }
+
+  /* Hero copy: one short entrance on page load. */
+  .hero-in > * { animation: hero-in 0.9s cubic-bezier(0.2, 0.65, 0.2, 1) both; }
+  .hero-in > :nth-child(2) { animation-delay: 90ms; }
+  .hero-in > :nth-child(3) { animation-delay: 180ms; }
+  .hero-in > :nth-child(4) { animation-delay: 270ms; }
+}
+
+/* Auto-scrolling row (Marquee.tsx): two copies of the items, shifted by one copy's width. */
+.marquee {
+  overflow: hidden;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee linear infinite;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  .marquee { overflow-x: auto; }
+  .marquee-track { animation: none !important; }
+  .marquee-track > [inert] { display: none; }
+}
+
+/* Before/after slider (BeforeAfter.tsx) */
+@keyframes ba-progress {
+  from { width: 0; }
+  to { width: 100%; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.ba-range::-webkit-slider-thumb { width: 44px; height: 350px; appearance: none; }
+
+/* Membership hero: slow drifting warm light. */
+@keyframes glow-drift {
+  0% { transform: translate3d(-8%, 0, 0) scale(1); opacity: 0.55; }
+  50% { transform: translate3d(6%, -6%, 0) scale(1.15); opacity: 0.8; }
+  100% { transform: translate3d(12%, 4%, 0) scale(0.95); opacity: 0.6; }
+}
+
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

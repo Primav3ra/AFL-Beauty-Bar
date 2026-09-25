@@ -1,15 +1,17 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { FigmaImage } from "@/components/FigmaImage";
 import { bookingHref } from "@/config/links";
+import { useAutoAdvance } from "@/lib/use-auto-advance";
 import { clinics, mapsHref, telHref } from "@/data/clinics";
 import { Briefcase, Phone, Pin } from "./icons";
 import type { Placed } from "./ProductGrid";
 
 // Only Miami is designed (480:2051). The four bars imply one slide per clinic, so the other slides
-// reuse the footer's clinic details (src/data/clinics.ts) with a black photo placeholder.
+// reuse the clinic details and office photos from src/data/clinics.ts.
 const slides = clinics.map((c) =>
   c.id === "miami"
     ? { clinic: c, title: "Miami, FL | Main Office", address: "51-53 NE 24th St Suite 107 Miami FL 33137", phone: "786-750-2355" }
@@ -19,12 +21,13 @@ const slides = clinics.map((c) =>
 /** Brown location card 480:2051 (1203×464) with the Miami storefront photo. */
 export function LocationsSlider({ photo }: { photo: Placed }) {
   const [i, setI] = useState(0);
+  const auto = useAutoAdvance(slides.length, setI);
   const s = slides[i];
 
   return (
-    <div className="relative mx-auto mt-[30px] h-[464px] w-[1203px] overflow-hidden bg-brown" role="region" aria-roledescription="carousel" aria-label="Our clinic locations">
+    <div {...auto} data-reveal className="relative mx-auto mt-10 h-[464px] w-[1203px] overflow-hidden bg-brown" role="region" aria-roledescription="carousel" aria-label="Our clinic locations">
       <div className="absolute top-12 left-[54px] w-[405px]" aria-live="polite">
-        <p className="text-[15px] leading-4 tracking-[-0.3px] text-white/40">/ Our Locations</p>
+        <p className="text-[15px] leading-4 tracking-[-0.3px] text-white/40">Our Locations</p>
         <h3 className="mt-[35px] text-[40px] leading-[60px] font-medium tracking-[-3.2px] whitespace-nowrap text-white">{s.title}</h3>
         <div className="mt-[35px] flex h-[60px] text-[15px] leading-5 font-medium text-white">
           <a href={mapsHref(s.clinic.address)} target="_blank" rel="noopener noreferrer" className="flex w-[205px] gap-[10px] py-[10px] hover:underline">
@@ -68,6 +71,11 @@ export function LocationsSlider({ photo }: { photo: Placed }) {
 
       <div className="absolute top-0 left-[552px] h-[464px] w-[651px] bg-black" aria-hidden />
       {s.clinic.id === "miami" && <FigmaImage {...photo} alt="AFL Beauty Bar storefront in Miami" />}
+      {s.clinic.photo && (
+        <div className="absolute top-0 left-[552px] h-[464px] w-[651px] overflow-hidden">
+          <Image key={s.clinic.id} src={s.clinic.photo.src} alt={s.clinic.photo.alt} fill sizes="651px" className="animate-[fade-in_.5s_ease-out] object-cover" />
+        </div>
+      )}
     </div>
   );
 }

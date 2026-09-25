@@ -7,6 +7,8 @@ export type Clinic = {
   short: string;
   address: string;
   phone: string;
+  /** Office photo in public/img/locations (from the owner); Miami uses its Figma photo instead. */
+  photo?: { src: string; alt: string };
 };
 
 export const clinics: Clinic[] = [
@@ -23,6 +25,7 @@ export const clinics: Clinic[] = [
     short: "Atlanta, GA",
     address: "3610 Piedmont Road NE Suite 200, Atlanta, GA 30305",
     phone: "(678) 822-6299",
+    photo: { src: "/img/locations/atlanta.webp", alt: "Treatment room at the AFL Beauty Bar Atlanta office" },
   },
   {
     id: "new-york",
@@ -30,6 +33,7 @@ export const clinics: Clinic[] = [
     short: "New York, NY",
     address: "65 West 36th Street Suite 10, New York, NY 10018",
     phone: "(718) 350-7305",
+    photo: { src: "/img/locations/new-york.webp", alt: "Treatment room at the AFL Beauty Bar New York office" },
   },
   {
     id: "los-angeles",
@@ -37,6 +41,7 @@ export const clinics: Clinic[] = [
     short: "Los Angeles, CA",
     address: "99 N La Cienega Blvd Ste. 301 Beverly Hills, CA 90211",
     phone: "(917) 993-4338",
+    photo: { src: "/img/locations/los-angeles.webp", alt: "Street view of the building housing the AFL Beauty Bar Los Angeles office" },
   },
 ];
 

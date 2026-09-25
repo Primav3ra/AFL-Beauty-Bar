@@ -107,12 +107,17 @@ export function ProductGrid({ products }: { products: ProductView[] }) {
 
       {/* Grid 482:2164 — frame y 829 */}
       <section className="relative mt-[57px]" style={{ height: showMoreTop + 62 }} aria-label="Products">
-        <div className="absolute inset-x-0 top-0 flex h-[46px] items-center overflow-hidden bg-brown" aria-label="52% off, limited stock">
-          <div className="absolute top-[13px] left-[-7px] flex items-center gap-5 whitespace-nowrap" aria-hidden>
-            {Array.from({ length: 7 }, (_, i) => (
-              <span key={i} className="flex items-center gap-5">
-                {i > 0 && <span className="size-1 rounded-full bg-white" />}
-                <span className="w-[170px] text-center text-[15px] leading-5 font-semibold tracking-[-0.4px] text-white">52% OFF (Limited Stock)</span>
+        {/* Full-width ticker: two identical runs, shifted by one run's width (see .marquee-track). */}
+        <div className="marquee absolute top-0 left-[calc(50%-50vw)] flex h-[46px] w-screen items-center bg-brown" role="img" aria-label="52% off, limited stock">
+          <div className="marquee-track" style={{ animationDuration: "40s" }} aria-hidden>
+            {[0, 1].map((run) => (
+              <span key={run} className="flex items-center whitespace-nowrap">
+                {Array.from({ length: 14 }, (_, i) => (
+                  <span key={i} className="flex items-center gap-5 pr-5">
+                    <span className="size-1 rounded-full bg-white" />
+                    <span className="text-[15px] leading-5 font-semibold tracking-[-0.4px] text-white">52% OFF (Limited Stock)</span>
+                  </span>
+                ))}
               </span>
             ))}
           </div>
