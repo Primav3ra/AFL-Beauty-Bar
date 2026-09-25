@@ -20,7 +20,6 @@ npm run typecheck && npm run lint
 | Package-discount policy (currently 0%, **owner to confirm**) | `src/config/pricing-policy.ts` |
 | Treatment detail content (verbatim from Figma) | `src/data/treatments.generated.json` ← `scripts/extract-treatments.mjs` |
 | Researched calculator pricing | `docs/PRICING_RESEARCH.json`, `docs/PRICING_SOURCES.md` |
-| Every clickable element and its status | `docs/INTERACTIONS.md` (generated) |
 
 Links without a real target yet use `<PlaceholderLink>`: it looks as designed, shows a "Coming soon" toast and carries `data-placeholder="<reason>"`.
 
@@ -36,17 +35,6 @@ node scripts/extract-treatments.mjs     # 32 detail pages → src/data/treatment
 node scripts/extract-categories.mjs     # 4 category pages
 npm run figma:q -- text <nodeId>        # inspect any node (tree | text | node | find | images …)
 ```
-
-## QA
-
-With the site running (`npm run dev` or `npx next start`):
-
-```bash
-node scripts/qa-screens.mjs http://localhost:3000   # qa/<route>.compare.png = design | site
-node scripts/crawl-links.mjs http://localhost:3000  # fails on internal 404s / unmarked "#" links; regenerates docs/INTERACTIONS.md
-```
-
-In Git Bash, prefix route arguments with `MSYS_NO_PATHCONV=1` (e.g. `MSYS_NO_PATHCONV=1 node scripts/qa-screens.mjs http://localhost:3000 /shop`).
 
 ## Deploy (review URL)
 
