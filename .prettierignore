@@ -1,0 +1,5 @@
+node_modules
+.next
+design
+public/figma
+package-lock.json
