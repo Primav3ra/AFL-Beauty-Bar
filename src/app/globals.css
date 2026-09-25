@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/* Design tokens derived from the Figma file (fills + text styles actually used on the built frames). */
+@theme {
+  --color-cream: #f2e9e0; /* page background */
+  --color-sand: #f4ebdf; /* light text on dark, hero tint */
+  --color-linen: #e5ddd2;
+  --color-oat: #e5d4c5;
+  --color-tan: #dcbfad;
+  --color-blush: #fee4e3; /* announcement bar */
+  --color-brown: #774c39; /* primary CTA */
+  --color-espresso: #30231c; /* headings */
+  --color-cocoa: #281c17;
+  --color-umber: #1b0804;
+  --color-ink: #070103;
+  --color-graphite: #3d3d3d;
+  --color-slate: #424242;
+  --color-mist: #d9d9d9;
+  --color-paper: #f4f4f4;
+  --color-star: #ffae00;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-ancizar), ui-serif, Georgia, serif;
+  --font-manrope: var(--font-manrope-var), ui-sans-serif, sans-serif;
+  --font-lora: var(--font-lora-var), ui-serif, serif;
+}
+
+html {
+  background: var(--color-cream);
+}
+
+body {
+  /* Desktop-only build: design width 1440, never narrower than 1280. */
+  min-width: 1280px;
+  max-width: 1440px;
+  margin-inline: auto;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+/* Serif italic accent used inside headlines, e.g. "Still *thinking* about…" */
+.accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Price calculator week slider (Figma 278:1598): transparent track, 19px brown thumb. */
+.calc-range {
+  appearance: none;
+  background: transparent;
+}
+.calc-range::-webkit-slider-runnable-track { background: transparent; height: 20px; }
+.calc-range::-moz-range-track { background: transparent; }
+.calc-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 19px;
+  height: 19px;
+  margin-top: 0.5px;
+  border-radius: 9999px;
+  background: var(--color-brown);
+}
+.calc-range::-moz-range-thumb { width: 19px; height: 19px; border: 0; border-radius: 9999px; background: var(--color-brown); }
+.calc-range:focus-visible { outline: none; }
+.calc-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 3px var(--color-tan); }
+.calc-range:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 3px var(--color-tan); }
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes curtain-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
